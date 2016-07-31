@@ -42,12 +42,8 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 	public boolean calculateStandartDerivationOfFees() {
 		if(FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED.equals(calculationStatus)){
 			return true;
-		} else if(data != null && FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED.equals(calculationStatus)){
-			List<Double> feesList = new ArrayList<Double>();
-			for(FuzzyData datum : data){
-				feesList.add(datum.getInsuranceFee());
-			}
-			this.standartDerivation = MathUtil.calculateStandardDerivation(feesList);
+		} else if(data != null && differenceSequence != null && FuzzyMembershipCalculationStatusEnum.DIFFERENCES_SEQUENCE_PREPARED.equals(calculationStatus)){
+			this.standartDerivation = MathUtil.calculateStandardDerivation(differenceSequence);
 			calculationStatus = FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED;
 			return true;
 		} else{
@@ -59,7 +55,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 	public boolean prepareDifferenceSequence() {
 		if(FuzzyMembershipCalculationStatusEnum.DIFFERENCES_SEQUENCE_PREPARED.equals(calculationStatus)){
 			return true;
-		} else if(data != null && FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED.equals(calculationStatus)){
+		} else if(data != null && FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED.equals(calculationStatus)){
 			differenceSequence = new ArrayList<Double>();
 			for(int i = 1; i < data.size(); i++){
 				FuzzyData firstItem = data.get(i - 1);

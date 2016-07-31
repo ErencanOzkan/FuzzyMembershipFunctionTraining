@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import com.fuzzy.stocks.enums.FuzzyMembershipCalculationStatusEnum;
 import com.fuzzy.stocks.model.FuzzyData;
-import com.fuzzy.stocks.util.MathUtil;
 
 public class FuzzyMembershipServiceImplTest {
 
@@ -74,31 +73,6 @@ public class FuzzyMembershipServiceImplTest {
 	}
 
 	@Test
-	public void calculateStandartDerivationOfFees_WrongStatus_StatusReturn() {
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
-		boolean methodStatus = service.calculateStandartDerivationOfFees();
-		assertFalse(methodStatus);
-	}
-
-	@Test
-	public void calculateStandartDerivationOfFees_AllreadyCalculated_StatusReturn() {
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED;
-		boolean methodStatus = service.calculateStandartDerivationOfFees();
-		assertTrue(methodStatus);
-
-		methodStatus = service.calculateStandartDerivationOfFees();
-		assertTrue(methodStatus);
-	}
-
-	@Test
-	public void calculateStandartDerivationOfFees_NoParams_StatusReturn() {
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED;
-		boolean methodStatus = service.calculateStandartDerivationOfFees();
-		assertTrue(methodStatus);
-	}
-	
-	
-	@Test
 	public void prepareDifferenceSequence_WrongStatus_StatusReturn() {
 		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
 		boolean methodStatus = service.prepareDifferenceSequence();
@@ -107,7 +81,7 @@ public class FuzzyMembershipServiceImplTest {
 
 	@Test
 	public void prepareDifferenceSequence_AllreadyCalculated_StatusReturn() {
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED;
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED;
 		boolean methodStatus = service.prepareDifferenceSequence();
 		assertTrue(methodStatus);
 
@@ -117,8 +91,37 @@ public class FuzzyMembershipServiceImplTest {
 
 	@Test
 	public void prepareDifferenceSequence_NoParams_StatusReturn() {
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED;
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED;
 		boolean methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+		
+		for(int i = 1; i < service.data.size(); i++){
+			double previousInsuranceFee = service.data.get(i - 1).getInsuranceFee();
+			double currentInsuranceFee = service.data.get(i).getInsuranceFee();
+			assertTrue((currentInsuranceFee - previousInsuranceFee) == service.differenceSequence.get(i-1));
+		}
+	}
+
+	@Test
+	public void calculateStandartDerivationOfFees_WrongStatus_StatusReturn() {
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
+		boolean methodStatus = service.calculateStandartDerivationOfFees();
+		assertFalse(methodStatus);
+	}
+
+	@Test
+	public void calculateStandartDerivationOfFees_AllreadyCalculated_StatusReturn() {
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED;
+		boolean methodStatus = service.calculateStandartDerivationOfFees();
+		assertTrue(methodStatus);
+	}
+
+	@Test
+	public void calculateStandartDerivationOfFees_NoParams_StatusReturn() {
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED;
+		boolean methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+		methodStatus = service.calculateStandartDerivationOfFees();
 		assertTrue(methodStatus);
 	}
 
