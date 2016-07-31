@@ -9,7 +9,7 @@ public class FuzzyData {
 	private FuzzyData() {
 	}
 
-	public class FuzzyDataBuilder {
+	public static class FuzzyDataBuilder {
 		private double age;
 		private double property;
 		private double insuranceFee;
