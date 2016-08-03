@@ -15,6 +15,8 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 	FuzzyMembershipCalculationStatusEnum calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;;
 
 	final double controlParameter = 4;
+	final double cutOfSimilarity = 0.81d;
+
 	double standartDerivation;
 	List<Double> diffSequence = new ArrayList<Double>();
 	List<Double> similarities = new ArrayList<Double>();
@@ -96,10 +98,50 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 			return true;
 		} else if(data != null && differenceSequence != null && FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED.equals(calculationStatus)){
 			for(Double diff : differenceSequence){
-				Double similarty = 1 - (diff / this.standartDerivation);
+				Double similarty = 1 - (diff / (this.standartDerivation * this.controlParameter));
 				this.similarities.add(similarty);
-				calculationStatus = FuzzyMembershipCalculationStatusEnum.SIMILARITIES_SEQUENCE_PREPARED;
 			}
+			calculationStatus = FuzzyMembershipCalculationStatusEnum.SIMILARITIES_SEQUENCE_PREPARED;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean calculateCenterPointB() {
+		if(FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED.equals(calculationStatus)){
+			return true;
+		} else if(data != null && similarities != null && FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED.equals(calculationStatus)){
+
+			calculationStatus = FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED;
+
+			return true;
+		}
+		return false;
+	}
+
+	public boolean groupDataBasedOnSimilarities() {
+		if(FuzzyMembershipCalculationStatusEnum.DATA_IS_GROUPED_BASED_ON_SIMILARITY.equals(calculationStatus)){
+			return true;
+		} else if(data != null && similarities != null && FuzzyMembershipCalculationStatusEnum.SIMILARITIES_SEQUENCE_PREPARED.equals(calculationStatus)){
+			int groupNumber = 1;
+			int itemCounter = 0;
+			for(Double similarity : this.similarities){
+				if(similarity < this.cutOfSimilarity){
+					FuzzyData datum = this.data.get(itemCounter);
+					datum.setGroup(groupNumber);
+					groupNumber++;
+
+				} else{
+
+					FuzzyData datum = this.data.get(itemCounter);
+					datum.setGroup(groupNumber);
+				}
+				itemCounter++;
+			}
+			FuzzyData datum = this.data.get(itemCounter);
+			datum.setGroup(groupNumber);
+			
+			calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_GROUPED_BASED_ON_SIMILARITY;
 			return true;
 		}
 		return false;

@@ -5,6 +5,8 @@ public class FuzzyData {
 	double age;
 	double property;
 	double insuranceFee;
+	
+	int group;
 
 	private FuzzyData() {
 	}
@@ -53,6 +55,16 @@ public class FuzzyData {
 
 	public void setInsuranceFee(double insuranceFee) {
 		this.insuranceFee = insuranceFee;
+	}
+
+	
+	public int getGroup() {
+		return group;
+	}
+
+	
+	public void setGroup(int group) {
+		this.group = group;
 	}
 
 }

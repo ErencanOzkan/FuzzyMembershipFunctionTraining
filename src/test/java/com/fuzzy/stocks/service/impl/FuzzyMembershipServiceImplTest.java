@@ -39,10 +39,94 @@ public class FuzzyMembershipServiceImplTest {
 		service = (FuzzyMembershipServiceImpl) new FuzzyMembershipServiceImpl.FuzzyMembershipServiceBuilder(data).build();
 		assertTrue(service.data != null);
 	}
+	
+	
+	@Test
+	public void groupDataBasedOnSimilarities_NoParams_StatusReturn() {
+		
+		boolean methodStatus = service.sortRawData();
+		assertTrue(methodStatus);
+
+		methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateStandartDerivationOfFees();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateSimilarities();
+		assertTrue(methodStatus);
+		
+		methodStatus = service.groupDataBasedOnSimilarities();
+		assertTrue(methodStatus);
+		
+	}
+	
+	@Test
+	public void groupDataBasedOnSimilarities_WrongStatus_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
+		boolean methodStatus = service.groupDataBasedOnSimilarities();
+		assertFalse(methodStatus);
+
+	}
+
+	@Test
+	public void groupDataBasedOnSimilarities_AllreadySorted_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED;
+		boolean methodStatus = service.groupDataBasedOnSimilarities();
+		assertTrue(methodStatus);
+	}
+	
+	
+	
+	@Test
+	public void calculateCenterPointB_NoParams_StatusReturn() {
+		
+		boolean methodStatus = service.sortRawData();
+		assertTrue(methodStatus);
+
+		methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateStandartDerivationOfFees();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateSimilarities();
+		assertTrue(methodStatus);
+		
+		methodStatus = service.calculateCenterPointB();
+		assertTrue(methodStatus);
+		
+	}
+	
+	@Test
+	public void calculateCenterPointB_WrongStatus_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
+		boolean methodStatus = service.calculateCenterPointB();
+		assertFalse(methodStatus);
+
+	}
+
+	@Test
+	public void calculateCenterPointB_AllreadySorted_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED;
+		boolean methodStatus = service.calculateCenterPointB();
+		assertTrue(methodStatus);
+	}
+	
 
 	@Test
 	public void calculateSimilarities_NoParams_StatusReturn() {
 
+		// use mockito here to mock calculateSimilarities
+		
 		boolean methodStatus = service.sortRawData();
 		assertTrue(methodStatus);
 
@@ -59,6 +143,8 @@ public class FuzzyMembershipServiceImplTest {
 
 	@Test
 	public void calculateSimilarities_WrongStatus_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
 		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
 		boolean methodStatus = service.calculateSimilarities();
 		assertFalse(methodStatus);
@@ -67,6 +153,8 @@ public class FuzzyMembershipServiceImplTest {
 
 	@Test
 	public void calculateSimilarities_AllreadySorted_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
 		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.SIMILARITIES_SEQUENCE_PREPARED;
 		boolean methodStatus = service.calculateSimilarities();
 		assertTrue(methodStatus);
