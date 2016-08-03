@@ -41,6 +41,38 @@ public class FuzzyMembershipServiceImplTest {
 	}
 
 	@Test
+	public void calculateSimilarities_NoParams_StatusReturn() {
+
+		boolean methodStatus = service.sortRawData();
+		assertTrue(methodStatus);
+
+		methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateStandartDerivationOfFees();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateSimilarities();
+		assertTrue(methodStatus);
+
+	}
+
+	@Test
+	public void calculateSimilarities_WrongStatus_StatusReturn() {
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
+		boolean methodStatus = service.calculateSimilarities();
+		assertFalse(methodStatus);
+
+	}
+
+	@Test
+	public void calculateSimilarities_AllreadySorted_StatusReturn() {
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.SIMILARITIES_SEQUENCE_PREPARED;
+		boolean methodStatus = service.calculateSimilarities();
+		assertTrue(methodStatus);
+	}
+
+	@Test
 	public void sortRawData_WrongStatus_StatusReturn() {
 		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
 		boolean methodStatus = service.sortRawData();
@@ -94,11 +126,11 @@ public class FuzzyMembershipServiceImplTest {
 		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_SORTED;
 		boolean methodStatus = service.prepareDifferenceSequence();
 		assertTrue(methodStatus);
-		
+
 		for(int i = 1; i < service.data.size(); i++){
 			double previousInsuranceFee = service.data.get(i - 1).getInsuranceFee();
 			double currentInsuranceFee = service.data.get(i).getInsuranceFee();
-			assertTrue((currentInsuranceFee - previousInsuranceFee) == service.differenceSequence.get(i-1));
+			assertTrue((currentInsuranceFee - previousInsuranceFee) == service.differenceSequence.get(i - 1));
 		}
 	}
 

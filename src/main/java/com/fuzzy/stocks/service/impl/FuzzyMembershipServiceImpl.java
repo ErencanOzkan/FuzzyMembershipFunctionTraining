@@ -90,4 +90,18 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 			return service;
 		}
 	}
+
+	public boolean calculateSimilarities() {
+		if(FuzzyMembershipCalculationStatusEnum.SIMILARITIES_SEQUENCE_PREPARED.equals(calculationStatus)){
+			return true;
+		} else if(data != null && differenceSequence != null && FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED.equals(calculationStatus)){
+			for(Double diff : differenceSequence){
+				Double similarty = 1 - (diff / this.standartDerivation);
+				this.similarities.add(similarty);
+				calculationStatus = FuzzyMembershipCalculationStatusEnum.SIMILARITIES_SEQUENCE_PREPARED;
+			}
+			return true;
+		}
+		return false;
+	}
 }
