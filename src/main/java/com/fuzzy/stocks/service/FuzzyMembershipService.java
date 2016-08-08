@@ -8,4 +8,10 @@ public interface FuzzyMembershipService {
 
 	boolean prepareDifferenceSequence();
 
+	boolean groupDataBasedOnSimilarities();
+
+	boolean calculateCenterPointB();
+
+	boolean calculateSimilarities();
+
 }

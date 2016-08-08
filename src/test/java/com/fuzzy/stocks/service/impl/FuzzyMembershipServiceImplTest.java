@@ -40,6 +40,33 @@ public class FuzzyMembershipServiceImplTest {
 		assertTrue(service.data != null);
 	}
 	
+	@Test
+	public void calculateCentralPoint_InitialParams_CentralPoint() {
+		List<FuzzyData> data = new ArrayList<FuzzyData>();
+		FuzzyData fuzzyData1 = new FuzzyData.FuzzyDataBuilder(20d, 30d, 2000d).build();
+		FuzzyData fuzzyData2 = new FuzzyData.FuzzyDataBuilder(25d, 30d, 2100d).build();
+		FuzzyData fuzzyData3 = new FuzzyData.FuzzyDataBuilder(30d, 10d, 2200d).build();
+		
+		
+		data.add(fuzzyData1);
+		data.add(fuzzyData2);
+		data.add(fuzzyData3);
+		
+		List<Double> similarities = new ArrayList<Double>();
+		similarities.add(0.83);
+		similarities.add(0.83);
+		similarities.add(0.14);
+		
+		double centralPoint = service.calculateCentralPoint(data, similarities);
+		assertTrue(centralPoint == 2100d);
+		
+	}
+	
+	@Test
+	public void calculateCentralPoint_NullParams_Zero() {
+		double centralPoint = service.calculateCentralPoint(null, null);
+		assertTrue(centralPoint == 0d);
+	}
 	
 	@Test
 	public void groupDataBasedOnSimilarities_NoParams_StatusReturn() {
@@ -75,7 +102,7 @@ public class FuzzyMembershipServiceImplTest {
 	public void groupDataBasedOnSimilarities_AllreadySorted_StatusReturn() {
 		// use mockito here to mock calculateSimilarities
 		
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED;
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.DATA_IS_GROUPED_BASED_ON_SIMILARITY;
 		boolean methodStatus = service.groupDataBasedOnSimilarities();
 		assertTrue(methodStatus);
 	}
@@ -96,6 +123,11 @@ public class FuzzyMembershipServiceImplTest {
 
 		methodStatus = service.calculateSimilarities();
 		assertTrue(methodStatus);
+		
+		methodStatus = service.groupDataBasedOnSimilarities();
+		assertTrue(methodStatus);
+		
+		//Mock above methods
 		
 		methodStatus = service.calculateCenterPointB();
 		assertTrue(methodStatus);
