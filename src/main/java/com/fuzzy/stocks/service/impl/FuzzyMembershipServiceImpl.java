@@ -141,6 +141,131 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 
 		return centralPoint;
 	}
+	
+	public boolean calculateRigthCornerPointC() {
+		if(FuzzyMembershipCalculationStatusEnum.RIGTH_CORNER_C_IS_CALCULATED.equals(calculationStatus)){
+			return true;
+		} else if(data != null && similarities != null && FuzzyMembershipCalculationStatusEnum.LEFT_CORNER_A_IS_CALCULATED.equals(calculationStatus)){
+
+			int groupingNumber = 1;
+			List<FuzzyData> sameGroupData = new ArrayList<FuzzyData>();
+			List<Double> sameGroupSimilarity = new ArrayList<Double>();
+			for(int i = 0; i < this.data.size(); i++){
+				FuzzyData datum = this.data.get(i);
+				Double similarity = Double.MAX_VALUE;
+				if(i < similarities.size()){
+					similarity = this.similarities.get(i);
+				}
+				if(groupingNumber == datum.getGroup()){
+					sameGroupData.add(datum);
+					sameGroupSimilarity.add(similarity);
+				} else{
+					sameGroupSimilarity.remove(sameGroupSimilarity.size() - 1);
+					double bj = centralPoints.get(groupingNumber - 1);
+					double yi = findMaximumData(sameGroupData);
+					double myi = findMinimumSimilarity(sameGroupSimilarity);
+					double rigthCornerPointC = bj + (( yi- bj) / (1 - myi));
+					this.rigthCornerPoints.add(rigthCornerPointC);
+
+					sameGroupData.clear();
+					sameGroupSimilarity.clear();
+					sameGroupData.add(datum);
+					sameGroupSimilarity.add(similarity);
+					groupingNumber++;
+				}
+			}
+
+			sameGroupSimilarity.remove(sameGroupSimilarity.size() - 1);
+			double bj = centralPoints.get(groupingNumber - 1);
+			double yi = findMaximumData(sameGroupData);
+			double myi = findMinimumSimilarity(sameGroupSimilarity);
+			double rigthCornerPointC = bj + (( yi- bj) / (1 - myi));
+			this.rigthCornerPoints.add(rigthCornerPointC);
+
+			calculationStatus = FuzzyMembershipCalculationStatusEnum.RIGTH_CORNER_C_IS_CALCULATED;
+
+			return true;
+		}
+		return false;
+	}
+
+	private double findMaximumData(List<FuzzyData> sameGroupData) {
+		Double maximumFee = Double.MAX_VALUE*(-1);
+		for(FuzzyData fee : sameGroupData){
+			if(maximumFee < fee.getInsuranceFee()){
+				maximumFee = fee.getInsuranceFee();
+			}
+		}
+		return maximumFee;
+	}
+
+	public boolean calculateLeftCornerPointA() {
+		if(FuzzyMembershipCalculationStatusEnum.LEFT_CORNER_A_IS_CALCULATED.equals(calculationStatus)){
+			return true;
+		} else if(data != null && similarities != null && FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED.equals(calculationStatus)){
+
+			int groupingNumber = 1;
+			List<FuzzyData> sameGroupData = new ArrayList<FuzzyData>();
+			List<Double> sameGroupSimilarity = new ArrayList<Double>();
+			int smallestSimilarityIndex = 0;
+			for(int i = 0; i < this.data.size(); i++){
+				FuzzyData datum = this.data.get(i);
+				Double similarity = Double.MAX_VALUE;
+				if(i < similarities.size()){
+					similarity = this.similarities.get(i);
+				}
+				if(groupingNumber == datum.getGroup()){
+					sameGroupData.add(datum);
+					sameGroupSimilarity.add(similarity);
+				} else{
+					sameGroupSimilarity.remove(sameGroupSimilarity.size() - 1);
+					double bj = centralPoints.get(groupingNumber - 1);
+					double yi = findMinimumData(sameGroupData);
+					double myi = findMinimumSimilarity(sameGroupSimilarity);
+					double leftCornerPointA = bj - ((bj - yi) / (1 - myi));
+					this.leftCornerPoints.add(leftCornerPointA);
+
+					sameGroupData.clear();
+					sameGroupSimilarity.clear();
+					sameGroupData.add(datum);
+					sameGroupSimilarity.add(similarity);
+					groupingNumber++;
+				}
+			}
+
+			sameGroupSimilarity.remove(sameGroupSimilarity.size() - 1);
+			double bj = centralPoints.get(groupingNumber - 1);
+			double yi = findMinimumData(sameGroupData);
+			double myi = findMinimumSimilarity(sameGroupSimilarity);
+			double leftCornerPointA = bj - ((bj - yi) / (1 - myi));
+			this.leftCornerPoints.add(leftCornerPointA);
+
+			calculationStatus = FuzzyMembershipCalculationStatusEnum.LEFT_CORNER_A_IS_CALCULATED;
+
+			return true;
+		}
+		return false;
+	}
+
+	private double findMinimumData(List<FuzzyData> sameGroupData) {
+		Double smallestFee = Double.MAX_VALUE;
+		for(FuzzyData fee : sameGroupData){
+			if(smallestFee > fee.getInsuranceFee()){
+				smallestFee = fee.getInsuranceFee();
+			}
+		}
+		return smallestFee;
+	}
+
+	private double findMinimumSimilarity(List<Double> sameGroupSimilarities) {
+		Double smallestSimilarity = Double.MAX_VALUE;
+		for(Double similarity : sameGroupSimilarities){
+			if(smallestSimilarity > similarity){
+				smallestSimilarity = similarity;
+			}
+		}
+		return smallestSimilarity;
+	}
 
 	@Override
 	public boolean calculateCenterPointB() {
@@ -213,5 +338,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 		}
 		return false;
 	}
+
+	
 
 }

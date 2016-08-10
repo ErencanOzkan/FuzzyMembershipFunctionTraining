@@ -40,8 +40,104 @@ public class FuzzyMembershipServiceImplTest {
 		assertTrue(service.data != null);
 	}
 	
+	
 	@Test
-	public void calculateCentralPoint_InitialParams_CentralPoint() {
+	public void calculateRigthCornerPointC_NoParams_StatusReturn()
+	{
+		boolean methodStatus = service.sortRawData();
+		assertTrue(methodStatus);
+
+		methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateStandartDerivationOfFees();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateSimilarities();
+		assertTrue(methodStatus);
+		
+		methodStatus = service.groupDataBasedOnSimilarities();
+		assertTrue(methodStatus);
+		
+		methodStatus = service.calculateCenterPointB();
+		assertTrue(methodStatus);
+				
+		
+		methodStatus = service.calculateLeftCornerPointA();
+		assertTrue(methodStatus);
+		
+		//Mock above methods
+		methodStatus = service.calculateRigthCornerPointC();
+		assertTrue(methodStatus);
+		
+	}
+	
+	@Test
+	public void calculateRigthCornerPointC_WrongStatus_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
+		boolean methodStatus = service.calculateRigthCornerPointC();
+		assertFalse(methodStatus);
+
+	}
+
+	@Test
+	public void calculateRigthCornerPointC_AllreadyCalculated_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.RIGTH_CORNER_C_IS_CALCULATED;
+		boolean methodStatus = service.calculateRigthCornerPointC();
+		assertTrue(methodStatus);
+	}
+	
+	@Test
+	public void calculateLeftCornerPointA_NoParams_StatusReturn()
+	{
+		boolean methodStatus = service.sortRawData();
+		assertTrue(methodStatus);
+
+		methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateStandartDerivationOfFees();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateSimilarities();
+		assertTrue(methodStatus);
+		
+		methodStatus = service.groupDataBasedOnSimilarities();
+		assertTrue(methodStatus);
+		
+		methodStatus = service.calculateCenterPointB();
+		assertTrue(methodStatus);
+				
+		//Mock above methods
+		methodStatus = service.calculateLeftCornerPointA();
+		assertTrue(methodStatus);
+	}
+	
+	@Test
+	public void calculateLeftCornerPointA_WrongStatus_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
+		boolean methodStatus = service.calculateLeftCornerPointA();
+		assertFalse(methodStatus);
+
+	}
+
+	@Test
+	public void calculateLeftCornerPointA_AllreadyCalculated_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.LEFT_CORNER_A_IS_CALCULATED;
+		boolean methodStatus = service.calculateLeftCornerPointA();
+		assertTrue(methodStatus);
+	}
+	
+	@Test
+	public void calculateCentralPointB_InitialParams_CentralPoint() {
 		List<FuzzyData> data = new ArrayList<FuzzyData>();
 		FuzzyData fuzzyData1 = new FuzzyData.FuzzyDataBuilder(20d, 30d, 2000d).build();
 		FuzzyData fuzzyData2 = new FuzzyData.FuzzyDataBuilder(25d, 30d, 2100d).build();
@@ -61,11 +157,57 @@ public class FuzzyMembershipServiceImplTest {
 		assertTrue(centralPoint == 2100d);
 		
 	}
+
+	
 	
 	@Test
-	public void calculateCentralPoint_NullParams_Zero() {
+	public void calculateCentralPointB_NullParams_Zero() {
 		double centralPoint = service.calculateCentralPoint(null, null);
 		assertTrue(centralPoint == 0d);
+	}
+	
+	@Test
+	public void calculateCenterPointB_NoParams_StatusReturn() {
+		
+		boolean methodStatus = service.sortRawData();
+		assertTrue(methodStatus);
+
+		methodStatus = service.prepareDifferenceSequence();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateStandartDerivationOfFees();
+		assertTrue(methodStatus);
+
+		methodStatus = service.calculateSimilarities();
+		assertTrue(methodStatus);
+		
+		methodStatus = service.groupDataBasedOnSimilarities();
+		assertTrue(methodStatus);
+		
+		//Mock above methods
+		
+		methodStatus = service.calculateCenterPointB();
+		assertTrue(methodStatus);
+		
+	}
+	
+	@Test
+	public void calculateCenterPointB_WrongStatus_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
+		boolean methodStatus = service.calculateCenterPointB();
+		assertFalse(methodStatus);
+
+	}
+
+	@Test
+	public void calculateCenterPointB_AllreadyCalculated_StatusReturn() {
+		// use mockito here to mock calculateSimilarities
+		
+		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED;
+		boolean methodStatus = service.calculateCenterPointB();
+		assertTrue(methodStatus);
 	}
 	
 	@Test
@@ -108,50 +250,7 @@ public class FuzzyMembershipServiceImplTest {
 	}
 	
 	
-	
-	@Test
-	public void calculateCenterPointB_NoParams_StatusReturn() {
-		
-		boolean methodStatus = service.sortRawData();
-		assertTrue(methodStatus);
 
-		methodStatus = service.prepareDifferenceSequence();
-		assertTrue(methodStatus);
-
-		methodStatus = service.calculateStandartDerivationOfFees();
-		assertTrue(methodStatus);
-
-		methodStatus = service.calculateSimilarities();
-		assertTrue(methodStatus);
-		
-		methodStatus = service.groupDataBasedOnSimilarities();
-		assertTrue(methodStatus);
-		
-		//Mock above methods
-		
-		methodStatus = service.calculateCenterPointB();
-		assertTrue(methodStatus);
-		
-	}
-	
-	@Test
-	public void calculateCenterPointB_WrongStatus_StatusReturn() {
-		// use mockito here to mock calculateSimilarities
-		
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;
-		boolean methodStatus = service.calculateCenterPointB();
-		assertFalse(methodStatus);
-
-	}
-
-	@Test
-	public void calculateCenterPointB_AllreadySorted_StatusReturn() {
-		// use mockito here to mock calculateSimilarities
-		
-		service.calculationStatus = FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED;
-		boolean methodStatus = service.calculateCenterPointB();
-		assertTrue(methodStatus);
-	}
 	
 
 	@Test
