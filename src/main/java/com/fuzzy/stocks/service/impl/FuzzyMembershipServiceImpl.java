@@ -113,7 +113,8 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 		return false;
 	}
 
-	double calculateCentralPoint(List<FuzzyData> sameGroupData, List<Double> sameGroupSimilarity) {
+	@Override
+	public double calculateCentralPoint(List<FuzzyData> sameGroupData, List<Double> sameGroupSimilarity) {
 		double centralPoint = 0d;
 		if(sameGroupData != null && sameGroupSimilarity != null && sameGroupData.size() == sameGroupSimilarity.size()){
 			double centralPointNumerator = 0;
@@ -141,7 +142,8 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 
 		return centralPoint;
 	}
-	
+
+	@Override
 	public boolean calculateRigthCornerPointC() {
 		if(FuzzyMembershipCalculationStatusEnum.RIGTH_CORNER_C_IS_CALCULATED.equals(calculationStatus)){
 			return true;
@@ -164,7 +166,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 					double bj = centralPoints.get(groupingNumber - 1);
 					double yi = findMaximumData(sameGroupData);
 					double myi = findMinimumSimilarity(sameGroupSimilarity);
-					double rigthCornerPointC = bj + (( yi- bj) / (1 - myi));
+					double rigthCornerPointC = bj + ((yi - bj) / (1 - myi));
 					this.rigthCornerPoints.add(rigthCornerPointC);
 
 					sameGroupData.clear();
@@ -179,7 +181,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 			double bj = centralPoints.get(groupingNumber - 1);
 			double yi = findMaximumData(sameGroupData);
 			double myi = findMinimumSimilarity(sameGroupSimilarity);
-			double rigthCornerPointC = bj + (( yi- bj) / (1 - myi));
+			double rigthCornerPointC = bj + ((yi - bj) / (1 - myi));
 			this.rigthCornerPoints.add(rigthCornerPointC);
 
 			calculationStatus = FuzzyMembershipCalculationStatusEnum.RIGTH_CORNER_C_IS_CALCULATED;
@@ -190,7 +192,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 	}
 
 	private double findMaximumData(List<FuzzyData> sameGroupData) {
-		Double maximumFee = Double.MAX_VALUE*(-1);
+		Double maximumFee = Double.MAX_VALUE * (-1);
 		for(FuzzyData fee : sameGroupData){
 			if(maximumFee < fee.getInsuranceFee()){
 				maximumFee = fee.getInsuranceFee();
@@ -199,6 +201,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 		return maximumFee;
 	}
 
+	@Override
 	public boolean calculateLeftCornerPointA() {
 		if(FuzzyMembershipCalculationStatusEnum.LEFT_CORNER_A_IS_CALCULATED.equals(calculationStatus)){
 			return true;
@@ -339,6 +342,52 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 		return false;
 	}
 
-	
+	@Override
+	public boolean findTheMembershipValues() {
+		if(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED.equals(calculationStatus)){
+			return true;
+		} else if(data != null && similarities != null && FuzzyMembershipCalculationStatusEnum.RIGTH_CORNER_C_IS_CALCULATED.equals(calculationStatus)){
+			for(int i = 1; i <= this.numberOfGroups; i++){
+				List<FuzzyData> sameGroupData = getSameGroupData(i);
+				double b = this.centralPoints.get(i-1);
+				for(FuzzyData d : sameGroupData){
+					if(d.getInsuranceFee() == b){
+						d.setMembershipValue(1);
+					} else if(d.getInsuranceFee() > b){
+						double c = this.rigthCornerPoints.get(i-1);
+						double diffA = c - b;
+						double diffB = c - d.getInsuranceFee();
+
+						double result = (diffB / diffA);
+						d.setMembershipValue(result);
+					} else if(d.getInsuranceFee() < b){
+						double a = this.leftCornerPoints.get(i-1);
+						double diffA = b - a;
+						double diffB = d.getInsuranceFee() - a;
+
+						double result = (diffB / diffA);
+						d.setMembershipValue(result);
+					}
+				}
+			}
+			calculationStatus = FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED;
+			return true;
+		}
+		return false;
+	}
+
+	List<FuzzyData> getSameGroupData(final int groupingNumber) {
+		List<FuzzyData> sameGroupData = new ArrayList<FuzzyData>();
+
+		if(groupingNumber > 0){
+			for(FuzzyData d : this.data){
+				if(d.getGroup() == groupingNumber){
+					sameGroupData.add(d);
+				}
+			}
+		}
+
+		return sameGroupData;
+	}
 
 }

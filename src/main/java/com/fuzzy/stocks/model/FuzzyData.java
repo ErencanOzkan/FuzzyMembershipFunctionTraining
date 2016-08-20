@@ -5,13 +5,15 @@ public class FuzzyData {
 	double age;
 	double property;
 	double insuranceFee;
-	
+
 	int group;
+	double membershipValue;
 
 	private FuzzyData() {
 	}
 
 	public static class FuzzyDataBuilder {
+
 		private double age;
 		private double property;
 		private double insuranceFee;
@@ -57,14 +59,25 @@ public class FuzzyData {
 		this.insuranceFee = insuranceFee;
 	}
 
-	
 	public int getGroup() {
 		return group;
 	}
 
-	
 	public void setGroup(int group) {
 		this.group = group;
+	}
+
+	public double getMembershipValue() {
+		return membershipValue;
+	}
+
+	public void setMembershipValue(double membershipValue) {
+		this.membershipValue = membershipValue;
+	}
+
+	@Override
+	public String toString() {
+		return "FuzzyData [age=" + age + ", property=" + property + ", insuranceFee=" + insuranceFee + ", group=" + group + ", membershipValue=" + membershipValue + "]";
 	}
 
 }
