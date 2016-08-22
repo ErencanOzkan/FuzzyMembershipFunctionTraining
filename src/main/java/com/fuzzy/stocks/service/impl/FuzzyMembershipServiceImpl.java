@@ -371,6 +371,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 				}
 			}
 			calculationStatus = FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED;
+			FuzzyMembershipPrintServiceImpl.printFuzzyData(data);
 			return true;
 		}
 		return false;

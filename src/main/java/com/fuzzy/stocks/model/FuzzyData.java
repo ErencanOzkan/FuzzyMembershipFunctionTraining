@@ -1,5 +1,7 @@
 package com.fuzzy.stocks.model;
 
+import com.fuzzy.stocks.enums.FuzzyMembershipCalculationStatusEnum;
+
 public class FuzzyData {
 
 	double age;
@@ -8,6 +10,7 @@ public class FuzzyData {
 
 	int group;
 	double membershipValue;
+	FuzzyMembershipCalculationStatusEnum status;
 
 	private FuzzyData() {
 	}
@@ -75,9 +78,21 @@ public class FuzzyData {
 		this.membershipValue = membershipValue;
 	}
 
+	
+	public FuzzyMembershipCalculationStatusEnum getStatus() {
+		return status;
+	}
+
+	
+	public void setStatus(FuzzyMembershipCalculationStatusEnum status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "FuzzyData [age=" + age + ", property=" + property + ", insuranceFee=" + insuranceFee + ", group=" + group + ", membershipValue=" + membershipValue + "]";
+		return "FuzzyData [age=" + age + ", property=" + property + ", insuranceFee=" + insuranceFee + ", group=" + group + ", membershipValue=" + membershipValue + ", "
+				+ (status != null ? "status=" + status : "") + "]";
 	}
+
 
 }

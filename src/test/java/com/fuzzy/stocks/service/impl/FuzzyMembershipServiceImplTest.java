@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.fuzzy.stocks.enums.FuzzyMembershipCalculationStatusEnum;
 import com.fuzzy.stocks.model.FuzzyData;
+import com.fuzzy.stocks.util.FuzzyDataUtil;
 
 public class FuzzyMembershipServiceImplTest {
 
@@ -70,6 +71,7 @@ public class FuzzyMembershipServiceImplTest {
 		//Mock above methods
 		methodStatus = service.findTheMembershipValues();
 		assertTrue(methodStatus);
+	
 		
 	}
 
