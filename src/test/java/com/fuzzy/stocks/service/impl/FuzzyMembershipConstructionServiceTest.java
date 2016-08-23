@@ -39,23 +39,23 @@ public class FuzzyMembershipConstructionServiceTest {
 		fuzzyData3.setMembershipValue(0.828398381754089);
 		fuzzyData3.setStatus(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED);
 
-		fuzzyData4.setGroup(1);
+		fuzzyData4.setGroup(2);
 		fuzzyData4.setMembershipValue(0.828398381754089);
 		fuzzyData4.setStatus(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED);
 
-		fuzzyData5.setGroup(1);
+		fuzzyData5.setGroup(2);
 		fuzzyData5.setMembershipValue(1.0);
 		fuzzyData5.setStatus(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED);
 
-		fuzzyData6.setGroup(1);
+		fuzzyData6.setGroup(2);
 		fuzzyData6.setMembershipValue(0.828398381754089);
 		fuzzyData6.setStatus(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED);
 
-		fuzzyData7.setGroup(1);
+		fuzzyData7.setGroup(3);
 		fuzzyData7.setMembershipValue(0.8283983817540891);
 		fuzzyData7.setStatus(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED);
 
-		fuzzyData8.setGroup(1);
+		fuzzyData8.setGroup(3);
 		fuzzyData8.setMembershipValue(0.8283983817540891);
 		fuzzyData8.setStatus(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED);
 
@@ -81,7 +81,6 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(smallestPredefinedUnit > 0);
 		assertTrue(smallestPredefinedUnit == service.smallesetPredefinedUnitForAge);
 	}
-	
 
 	@Test
 	public void findSmallestPredefinedUnitForProperty_NoParam_GetSmallestPreDefinedUnit() {
@@ -90,5 +89,27 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(smallestPredefinedUnit > 0);
 		assertTrue(smallestPredefinedUnit == service.smallesetPredefinedUnitForProperty);
 	}
-	
+
+	@Test
+	public void constructInitialDecisionTable_NoParam_ConstructsInitialDecisionTable() {
+		service.findAndSetSmallestPredefinedUnitForAge();
+		service.findAndSetSmallestPredefinedUnitForProperty();
+
+		this.service.constructInitialDecisionTable();
+		assertTrue(service.desitionTable != null);
+		assertTrue(service.desitionTable[0].length == 9);
+		assertTrue(service.desitionTable.length == 13);
+		
+		assertTrue(service.desitionTable[0][4] == 1);
+		assertTrue(service.desitionTable[1][4] == 1);
+		assertTrue(service.desitionTable[2][0] == 1);
+		
+		assertTrue(service.desitionTable[5][8] == 2);
+		assertTrue(service.desitionTable[6][4] == 2);
+		assertTrue(service.desitionTable[8][0] == 2);
+		
+		assertTrue(service.desitionTable[12][4] == 3);		
+		assertTrue(service.desitionTable[12][6] == 3);
+		
+	}
 }

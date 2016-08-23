@@ -51,13 +51,14 @@ public class FuzzyDataUtilTest {
 		}
 
 	}
-	
+
 	@Test
 	public void setFuzzyDataStatus_Null_NumberOfStatusSet() {
 		boolean success = FuzzyDataUtil.setFuzzyDataStatus(null, FuzzyMembershipCalculationStatusEnum.STANDART_DERIVATION_IS_CALCULATED);
 		assertFalse(success);
 
 	}
+
 	@Test
 	public void setFuzzyDataStatus_EmptyData_NumberOfStatusSet() {
 		List<FuzzyData> emptyData = new ArrayList<FuzzyData>();
@@ -66,4 +67,81 @@ public class FuzzyDataUtilTest {
 
 	}
 
+	@Test
+	public void findMinimumAge_FuzzyData_MinimumAge() {
+		double mimimumAge = FuzzyDataUtil.findMinimumAge(this.data);
+		assertTrue(mimimumAge == 20d);
+	}
+
+	@Test
+	public void findMinimumAge_EmptyFuzzyData_MinimumAgeAsMaximumDouble() {
+		List<FuzzyData> emptyData = new ArrayList<FuzzyData>();
+		double mimimumAge = FuzzyDataUtil.findMinimumAge(emptyData);
+		assertTrue(mimimumAge == Double.MAX_VALUE);
+	}
+
+	@Test
+	public void findMinimumAge_null_MinimumAgeAsMaximumDouble() {
+		double mimimumAge = FuzzyDataUtil.findMinimumAge(null);
+		assertTrue(mimimumAge == Double.MAX_VALUE);
+	}
+
+	@Test
+	public void findMaximumAge_FuzzyData_MinimumAge() {
+		double mimimumAge = FuzzyDataUtil.findMaximumAge(this.data);
+		assertTrue(mimimumAge == 80d);
+	}
+
+	@Test
+	public void findMaximumAge_EmptyFuzzyData_MinimumAgeAsMaximumDouble() {
+		List<FuzzyData> emptyData = new ArrayList<FuzzyData>();
+		double mimimumAge = FuzzyDataUtil.findMaximumAge(emptyData);
+		assertTrue(mimimumAge == (-1) * Double.MAX_VALUE);
+	}
+
+	@Test
+	public void findMaximumAge_null_MinimumAgeAsMaximumDouble() {
+		double mimimumAge = FuzzyDataUtil.findMaximumAge(null);
+		assertTrue(mimimumAge == (-1) * Double.MAX_VALUE);
+	}
+	
+	
+	@Test
+	public void findMinimumProperty_FuzzyData_MinimumAge() {
+		double minimumProperty = FuzzyDataUtil.findMinimumProperty(this.data);
+		assertTrue(minimumProperty == 10d);
+	}
+
+	@Test
+	public void findMinimumProperty_EmptyFuzzyData_MinimumAgeAsMaximumDouble() {
+		List<FuzzyData> emptyData = new ArrayList<FuzzyData>();
+		double minimumProperty = FuzzyDataUtil.findMinimumProperty(emptyData);
+		assertTrue(minimumProperty == Double.MAX_VALUE);
+	}
+
+	@Test
+	public void findMinimumProperty_null_MinimumAgeAsMaximumDouble() {
+		double minimumProperty = FuzzyDataUtil.findMinimumProperty(null);
+		assertTrue(minimumProperty == Double.MAX_VALUE);
+	}
+	
+	
+	@Test
+	public void findMaximumProperty_FuzzyData_MinimumAge() {
+		double maximumProperty = FuzzyDataUtil.findMaximumProperty(this.data);
+		assertTrue(maximumProperty == 50d);
+	}
+
+	@Test
+	public void findMaximumProperty_EmptyFuzzyData_MinimumAgeAsMaximumDouble() {
+		List<FuzzyData> emptyData = new ArrayList<FuzzyData>();
+		double maximumProperty = FuzzyDataUtil.findMaximumProperty(emptyData);
+		assertTrue(maximumProperty == (-1) * Double.MAX_VALUE);
+	}
+
+	@Test
+	public void findMaximumProperty_null_MinimumAgeAsMaximumDouble() {
+		double maximumProperty = FuzzyDataUtil.findMaximumProperty(null);
+		assertTrue(maximumProperty == (-1) * Double.MAX_VALUE);
+	}
 }
