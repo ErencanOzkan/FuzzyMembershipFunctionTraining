@@ -79,5 +79,20 @@ public class FuzzyMembershipPrintServiceImplTest {
 		DecisionTableElement[][]  desitionTable2 = new DecisionTableElement[2][2];
 		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable2);
 	}
+	
+	
+	@Test
+	public void printDecitionTableCalculatedValues_Data_Prints() {
+		FuzzyMembershipPrintServiceImpl.printDecitionTableCalculatedValues(desitionTable);
+	}
+	@Test
+	public void printDecitionTableCalculatedValues_Null_Prints() {
+		FuzzyMembershipPrintServiceImpl.printDecitionTableCalculatedValues(null);
+	}
+	@Test
+	public void printDecitionTableCalculatedValues_EmptyData_Prints() {
+		DecisionTableElement[][]  desitionTable2 = new DecisionTableElement[2][2];
+		FuzzyMembershipPrintServiceImpl.printDecitionTableCalculatedValues(desitionTable2);
+	}
 
 }

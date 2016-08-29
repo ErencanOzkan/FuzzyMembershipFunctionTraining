@@ -106,7 +106,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			int dataLocationForProperty = (int) ((d.getProperty() - minimumProperty) / this.smallesetPredefinedUnitForProperty);
 			desitionTable[dataLocationForAge][dataLocationForProperty] = new DecisionTableElement.DecisionTableElementBuilder(d.getGroup()).build();;
 		}
-
 	}
 
 	public void mergeAdjacentColumnsIfTheyAreSame() {
@@ -128,6 +127,30 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						int calculatedGroup = firstRow[j].getGroup();
 						secondRow[j].setCalculatedGroup(calculatedGroup);
 						firstRow[j].setCalculatedGroup(calculatedGroup);
+					}
+				}
+			}
+		}
+		
+	}
+
+	public void mergeAdjacentRowsIfTheyAreSame() {
+		if(desitionTable != null){
+			int x = desitionTable.length;
+			int y = desitionTable[0].length;
+			for(int j = 1; j < y; j++){
+				boolean rowsAreSame = true;
+				for(int i = 0; i < x; i++){
+					if(desitionTable[i][j - 1].getGroup() != desitionTable[i][j].getGroup()){
+						rowsAreSame = false;
+						break;
+					}
+				}
+				if(rowsAreSame){
+					for(int i = 0; i < y; i++){
+						int calculatedGroup = desitionTable[i][j - 1].getGroup();
+						desitionTable[i][j - 1].setCalculatedGroup(calculatedGroup);
+						desitionTable[i][j].setCalculatedGroup(calculatedGroup);
 					}
 				}
 			}
