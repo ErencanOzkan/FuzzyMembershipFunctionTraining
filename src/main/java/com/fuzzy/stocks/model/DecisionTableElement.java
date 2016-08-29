@@ -4,6 +4,8 @@ public class DecisionTableElement {
 
 	private int group;
 
+	private int calculatedGroup;
+
 	private DecisionTableElement() {
 
 	}
@@ -18,7 +20,8 @@ public class DecisionTableElement {
 
 		public DecisionTableElement build() {
 			DecisionTableElement element = new DecisionTableElement();
-			element.setGroup(this.group);
+			element.group = this.group;
+			element.calculatedGroup = this.group;
 			return element;
 		}
 
@@ -28,13 +31,17 @@ public class DecisionTableElement {
 		return group;
 	}
 
-	public void setGroup(int group) {
-		this.group = group;
-	}
-
 	@Override
 	public String toString() {
 		return "DecisionTableElement [group=" + group + "]";
+	}
+
+	public int getCalculatedGroup() {
+		return calculatedGroup;
+	}
+
+	public void setCalculatedGroup(int calculatedGroup) {
+		this.calculatedGroup = calculatedGroup;
 	}
 
 }

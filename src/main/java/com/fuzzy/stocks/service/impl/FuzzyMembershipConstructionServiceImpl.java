@@ -13,9 +13,9 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 	private List<FuzzyData> data;
 	double smallesetPredefinedUnitForAge = 0;
 	double smallesetPredefinedUnitForProperty = 0;
-	
-	DecisionTableElement [][] desitionTable;
-	
+
+	DecisionTableElement[][] desitionTable;
+
 	private FuzzyMembershipConstructionServiceImpl(List<FuzzyData> data) {
 		this.data = data;
 	}
@@ -89,24 +89,48 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		this.smallesetPredefinedUnitForProperty = 5;
 		double minimumAge = FuzzyDataUtil.findMinimumAge(this.data);
 		double maximumAge = FuzzyDataUtil.findMaximumAge(this.data);
-		int decisionTableSizeX = (int)((maximumAge - minimumAge) / this.smallesetPredefinedUnitForAge)+1;
-		
+		int decisionTableSizeX = (int) ((maximumAge - minimumAge) / this.smallesetPredefinedUnitForAge) + 1;
+
 		double minimumProperty = FuzzyDataUtil.findMinimumProperty(this.data);
 		double maximumProperty = FuzzyDataUtil.findMaximumProperty(this.data);
-		int decisionTableSizeY = (int)((maximumProperty - minimumProperty) / this.smallesetPredefinedUnitForProperty)+1;
-		
-		
+		int decisionTableSizeY = (int) ((maximumProperty - minimumProperty) / this.smallesetPredefinedUnitForProperty) + 1;
+
 		desitionTable = new DecisionTableElement[decisionTableSizeX][decisionTableSizeY];
-		for(FuzzyData d : this.data)
-		{
-			int dataLocationForAge = (int)((d.getAge() - minimumAge) / this.smallesetPredefinedUnitForAge);
-			int dataLocationForProperty = (int)((d.getProperty() - minimumProperty) / this.smallesetPredefinedUnitForProperty);
+		for(int i = 0; i < decisionTableSizeX; i++){
+			for(int j = 0; j < decisionTableSizeY; j++){
+				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
+			}
+		}
+		for(FuzzyData d : this.data){
+			int dataLocationForAge = (int) ((d.getAge() - minimumAge) / this.smallesetPredefinedUnitForAge);
+			int dataLocationForProperty = (int) ((d.getProperty() - minimumProperty) / this.smallesetPredefinedUnitForProperty);
 			desitionTable[dataLocationForAge][dataLocationForProperty] = new DecisionTableElement.DecisionTableElementBuilder(d.getGroup()).build();;
 		}
-		
-		
+
 	}
 
-	
-
+	public void mergeAdjacentColumnsIfTheyAreSame() {
+		if(desitionTable != null){
+			int x = desitionTable.length;
+			int y = desitionTable[0].length;
+			DecisionTableElement[] firstRow = desitionTable[0];
+			for(int i = 1; i < x; i++){
+				DecisionTableElement[] secondRow = desitionTable[i];
+				boolean columnsAreSame = true;
+				for(int j = 0; j < y; j++){
+					if(firstRow[j] != secondRow[j]){
+						columnsAreSame = false;
+						break;
+					}
+				}
+				if(columnsAreSame){
+					for(int j = 0; j < y; j++){
+						int calculatedGroup = firstRow[j].getGroup();
+						secondRow[j].setCalculatedGroup(calculatedGroup);
+						firstRow[j].setCalculatedGroup(calculatedGroup);
+					}
+				}
+			}
+		}
+	}
 }

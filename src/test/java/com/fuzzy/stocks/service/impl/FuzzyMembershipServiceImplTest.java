@@ -8,11 +8,13 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.fuzzy.stocks.enums.FuzzyMembershipCalculationStatusEnum;
 import com.fuzzy.stocks.model.FuzzyData;
-import com.fuzzy.stocks.util.FuzzyDataUtil;
 
+@RunWith(MockitoJUnitRunner.class)
 public class FuzzyMembershipServiceImplTest {
 
 	private FuzzyMembershipServiceImpl service;
@@ -71,8 +73,7 @@ public class FuzzyMembershipServiceImplTest {
 		//Mock above methods
 		methodStatus = service.findTheMembershipValues();
 		assertTrue(methodStatus);
-	
-		
+
 	}
 
 	@Test
