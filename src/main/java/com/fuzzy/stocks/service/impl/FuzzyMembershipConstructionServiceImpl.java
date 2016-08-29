@@ -3,6 +3,7 @@ package com.fuzzy.stocks.service.impl;
 import java.util.List;
 
 import com.fuzzy.stocks.enums.FuzzyMembershipCalculationStatusEnum;
+import com.fuzzy.stocks.model.DecisionTableElement;
 import com.fuzzy.stocks.model.FuzzyData;
 import com.fuzzy.stocks.service.FuzzyMembershipConstructionService;
 import com.fuzzy.stocks.util.FuzzyDataUtil;
@@ -13,7 +14,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 	double smallesetPredefinedUnitForAge = 0;
 	double smallesetPredefinedUnitForProperty = 0;
 	
-	int [][] desitionTable;
+	DecisionTableElement [][] desitionTable;
 	
 	private FuzzyMembershipConstructionServiceImpl(List<FuzzyData> data) {
 		this.data = data;
@@ -95,12 +96,12 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		int decisionTableSizeY = (int)((maximumProperty - minimumProperty) / this.smallesetPredefinedUnitForProperty)+1;
 		
 		
-		desitionTable = new int[decisionTableSizeX][decisionTableSizeY];
+		desitionTable = new DecisionTableElement[decisionTableSizeX][decisionTableSizeY];
 		for(FuzzyData d : this.data)
 		{
 			int dataLocationForAge = (int)((d.getAge() - minimumAge) / this.smallesetPredefinedUnitForAge);
 			int dataLocationForProperty = (int)((d.getProperty() - minimumProperty) / this.smallesetPredefinedUnitForProperty);
-			desitionTable[dataLocationForAge][dataLocationForProperty] = d.getGroup();
+			desitionTable[dataLocationForAge][dataLocationForProperty] = new DecisionTableElement.DecisionTableElementBuilder(d.getGroup()).build();;
 		}
 		
 		
