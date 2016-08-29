@@ -8,12 +8,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fuzzy.stocks.model.DecisionTableElement;
 import com.fuzzy.stocks.model.FuzzyData;
 
 public class FuzzyMembershipPrintServiceImplTest {
-	
+
 	List<FuzzyData> data = new ArrayList<FuzzyData>();
-	
+
+	DecisionTableElement[][] desitionTable;
 
 	@Before
 	public void initializeTest() {
@@ -36,12 +38,46 @@ public class FuzzyMembershipPrintServiceImplTest {
 
 		assertTrue(this.data != null);
 		assertTrue(this.data.size() > 0);
+
+		desitionTable = new DecisionTableElement[2][2];
+		DecisionTableElement element1 = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		DecisionTableElement element2 = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		DecisionTableElement element3 = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		DecisionTableElement element4 = new DecisionTableElement.DecisionTableElementBuilder(4).build();
+		desitionTable[0][0] = element1;
+		desitionTable[0][1] = element2;
+		desitionTable[1][0] = element3;
+		desitionTable[1][1] = element4;
+	}
+
+	@Test
+	public void printFuzzyData_Data_Prints() {
+		FuzzyMembershipPrintServiceImpl.printFuzzyData(data);
 	}
 	
 	@Test
-	public void printFuzzyData_Data_Prints()
-	{
-		FuzzyMembershipPrintServiceImpl.printFuzzyData(data);
+	public void printFuzzyData_Null_Prints() {
+		FuzzyMembershipPrintServiceImpl.printFuzzyData(null);
+	}
+	
+	@Test
+	public void printFuzzyData_EmptyData_Prints() {
+		List<FuzzyData> data2 = new ArrayList<FuzzyData>();
+		FuzzyMembershipPrintServiceImpl.printFuzzyData(data2);
+	}
+
+	@Test
+	public void printDecitionTable_Data_Prints() {
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
+	}
+	@Test
+	public void printDecitionTable_Null_Prints() {
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(null);
+	}
+	@Test
+	public void printDecitionTable_EmptyData_Prints() {
+		DecisionTableElement[][]  desitionTable2 = new DecisionTableElement[2][2];
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable2);
 	}
 
 }

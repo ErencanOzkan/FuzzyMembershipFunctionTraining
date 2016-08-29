@@ -74,6 +74,11 @@ public class FuzzyMembershipConstructionServiceTest {
 		service = (FuzzyMembershipConstructionServiceImpl) new FuzzyMembershipConstructionServiceImpl.FuzzyMembershipConstructionServiceBuilder(data).build();
 	}
 
+	@Test
+	public void ___()
+	{
+		
+	}
 	
 	@Test
 	public void findSmallestPredefinedUnitForAge_NoParam_GetSmallestPreDefinedUnit() {

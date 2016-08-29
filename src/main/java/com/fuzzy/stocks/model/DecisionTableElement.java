@@ -32,4 +32,9 @@ public class DecisionTableElement {
 		this.group = group;
 	}
 
+	@Override
+	public String toString() {
+		return "DecisionTableElement [group=" + group + "]";
+	}
+
 }
