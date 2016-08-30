@@ -75,6 +75,19 @@ public class FuzzyMembershipConstructionServiceTest {
 	}
 
 	@Test
+	public void mergeAdjacentColumsFOrOperation2_NoParam_MergesSameColumns() {
+		
+		this.service.findAndSetSmallestPredefinedUnitForAge();
+		this.service.findAndSetSmallestPredefinedUnitForProperty();
+		this.service.constructInitialDecisionTable();
+		this.service.mergeAdjacentColumnsIfTheyAreSame();
+		this.service.mergeAdjacentRowsIfTheyAreSame();
+		
+		this.service.mergeAdjacentColumsFOrOperation2();
+
+	}
+
+	@Test
 	public void mergeAdjacentRowsIfTheyAreSame_NoParam_MergesSameColumns() {
 		this.service.findAndSetSmallestPredefinedUnitForAge();
 		this.service.findAndSetSmallestPredefinedUnitForProperty();
@@ -83,33 +96,23 @@ public class FuzzyMembershipConstructionServiceTest {
 
 		this.service.mergeAdjacentRowsIfTheyAreSame();
 
-		assertTrue(this.service.desitionTable[0][1].getCalculatedGroup() == this.service.desitionTable[0][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[1][1].getCalculatedGroup() == this.service.desitionTable[1][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[2][1].getCalculatedGroup() == this.service.desitionTable[2][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][1].getCalculatedGroup() == this.service.desitionTable[3][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[4][1].getCalculatedGroup() == this.service.desitionTable[4][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[5][1].getCalculatedGroup() == this.service.desitionTable[5][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[6][1].getCalculatedGroup() == this.service.desitionTable[4][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[7][1].getCalculatedGroup() == this.service.desitionTable[7][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[8][1].getCalculatedGroup() == this.service.desitionTable[8][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][1].getCalculatedGroup() == this.service.desitionTable[9][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[10][1].getCalculatedGroup() == this.service.desitionTable[10][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[11][1].getCalculatedGroup() == this.service.desitionTable[11][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[12][1].getCalculatedGroup() == this.service.desitionTable[12][2].getCalculatedGroup());
+		assertTrue(this.service.rows[0] == 0);
 		
-		assertTrue(this.service.desitionTable[0][1].getCalculatedGroup() == this.service.desitionTable[0][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[1][1].getCalculatedGroup() == this.service.desitionTable[1][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[2][1].getCalculatedGroup() == this.service.desitionTable[2][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][1].getCalculatedGroup() == this.service.desitionTable[3][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[4][1].getCalculatedGroup() == this.service.desitionTable[4][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[5][1].getCalculatedGroup() == this.service.desitionTable[5][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[6][1].getCalculatedGroup() == this.service.desitionTable[4][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[7][1].getCalculatedGroup() == this.service.desitionTable[7][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[8][1].getCalculatedGroup() == this.service.desitionTable[8][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][1].getCalculatedGroup() == this.service.desitionTable[9][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[10][1].getCalculatedGroup() == this.service.desitionTable[10][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[11][1].getCalculatedGroup() == this.service.desitionTable[11][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[12][1].getCalculatedGroup() == this.service.desitionTable[12][3].getCalculatedGroup());
+		assertTrue(this.service.rows[1] == this.service.rows[2]);
+		assertTrue(this.service.rows[1] == 1);
+		assertTrue(this.service.rows[2] == 1);
+		assertTrue(this.service.rows[1] == this.service.rows[3]);
+		assertTrue(this.service.rows[3] == 1);
+		
+		assertTrue(this.service.rows[4] == 0);
+		assertTrue(this.service.rows[5] == 0);
+		assertTrue(this.service.rows[6] == 0);
+		assertTrue(this.service.rows[7] == 0);
+		assertTrue(this.service.rows[8] == 0);
+	
+		
+		
+		
 	}
 
 	@Test
@@ -120,45 +123,28 @@ public class FuzzyMembershipConstructionServiceTest {
 
 		this.service.mergeAdjacentColumnsIfTheyAreSame();
 
-		assertTrue(this.service.desitionTable[0][0].getCalculatedGroup() == this.service.desitionTable[1][0].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][1].getCalculatedGroup() == this.service.desitionTable[1][1].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][2].getCalculatedGroup() == this.service.desitionTable[1][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][3].getCalculatedGroup() == this.service.desitionTable[1][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][4].getCalculatedGroup() == this.service.desitionTable[1][4].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][5].getCalculatedGroup() == this.service.desitionTable[1][5].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][6].getCalculatedGroup() == this.service.desitionTable[1][6].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][7].getCalculatedGroup() == this.service.desitionTable[1][7].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[0][8].getCalculatedGroup() == this.service.desitionTable[1][8].getCalculatedGroup());
-
-		assertTrue(this.service.desitionTable[3][0].getCalculatedGroup() == this.service.desitionTable[4][0].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][1].getCalculatedGroup() == this.service.desitionTable[4][1].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][2].getCalculatedGroup() == this.service.desitionTable[4][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][3].getCalculatedGroup() == this.service.desitionTable[4][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][4].getCalculatedGroup() == this.service.desitionTable[4][4].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][5].getCalculatedGroup() == this.service.desitionTable[4][5].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][6].getCalculatedGroup() == this.service.desitionTable[4][6].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][7].getCalculatedGroup() == this.service.desitionTable[4][7].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[3][8].getCalculatedGroup() == this.service.desitionTable[4][8].getCalculatedGroup());
-
-		assertTrue(this.service.desitionTable[9][0].getCalculatedGroup() == this.service.desitionTable[10][0].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][1].getCalculatedGroup() == this.service.desitionTable[10][1].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][2].getCalculatedGroup() == this.service.desitionTable[10][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][3].getCalculatedGroup() == this.service.desitionTable[10][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][4].getCalculatedGroup() == this.service.desitionTable[10][4].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][5].getCalculatedGroup() == this.service.desitionTable[10][5].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][6].getCalculatedGroup() == this.service.desitionTable[10][6].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][7].getCalculatedGroup() == this.service.desitionTable[10][7].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][8].getCalculatedGroup() == this.service.desitionTable[10][8].getCalculatedGroup());
-
-		assertTrue(this.service.desitionTable[9][0].getCalculatedGroup() == this.service.desitionTable[11][0].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][1].getCalculatedGroup() == this.service.desitionTable[11][1].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][2].getCalculatedGroup() == this.service.desitionTable[11][2].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][3].getCalculatedGroup() == this.service.desitionTable[11][3].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][4].getCalculatedGroup() == this.service.desitionTable[11][4].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][5].getCalculatedGroup() == this.service.desitionTable[11][5].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][6].getCalculatedGroup() == this.service.desitionTable[11][6].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][7].getCalculatedGroup() == this.service.desitionTable[11][7].getCalculatedGroup());
-		assertTrue(this.service.desitionTable[9][8].getCalculatedGroup() == this.service.desitionTable[11][8].getCalculatedGroup());
+		assertTrue(this.service.columns[0] == this.service.columns[1]);
+		assertTrue(this.service.columns[0] == 1);
+		assertTrue(this.service.columns[1] == 1);
+		
+		assertTrue(this.service.columns[2] == 0);
+		
+		assertTrue(this.service.columns[3] == this.service.columns[4]);
+		assertTrue(this.service.columns[3] == 2);
+		assertTrue(this.service.columns[4] == 2);
+		
+		assertTrue(this.service.columns[5] == 0);
+		assertTrue(this.service.columns[6] == 0);
+		assertTrue(this.service.columns[7] == 0);
+		assertTrue(this.service.columns[8] == 0);
+		
+		assertTrue(this.service.columns[9] == this.service.columns[10]);
+		assertTrue(this.service.columns[9] == 3);
+		assertTrue(this.service.columns[10] == 3);
+		assertTrue(this.service.columns[9] == this.service.columns[11]);
+		assertTrue(this.service.columns[11] == 3);
+		
+		assertTrue(this.service.columns[12] == 0);
 
 	}
 

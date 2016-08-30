@@ -1,5 +1,10 @@
 package com.fuzzy.stocks.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class DecisionTableElement {
 
 	private int group;
@@ -7,7 +12,6 @@ public class DecisionTableElement {
 	private int calculatedGroup;
 
 	private DecisionTableElement() {
-
 	}
 
 	public static class DecisionTableElementBuilder {
