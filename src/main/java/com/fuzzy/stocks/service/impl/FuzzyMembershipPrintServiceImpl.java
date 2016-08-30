@@ -30,21 +30,4 @@ public class FuzzyMembershipPrintServiceImpl implements FuzzyMembershipPrintServ
 			System.out.println();
 		}
 	}
-
-	public static void printDecitionTableCalculatedValues(DecisionTableElement[][] desitionTable) {
-
-		if(desitionTable != null){
-			int x = desitionTable.length;
-			int y = desitionTable[0].length;
-			for(int j = 0; j < y; j++){
-				for(int i = 0; i < x; i++){
-					int group = desitionTable[i][j] != null ? desitionTable[i][j].getCalculatedGroup() : -1;
-					System.out.print("[ " + group + " ]");
-				}
-				System.out.println();
-			}
-			System.out.println();
-		}
-
-	}
 }
