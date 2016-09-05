@@ -274,15 +274,14 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		}
 	}
 
-	private void setCalculatedRowToMergedColumns(int[] calculatedRow, int mergedRowIndex) {
-		for(int i = 0; i < this.rows.length; i++){
-			if(this.rows[i] == mergedRowIndex){
-				for(int j = 0; j < columns.length; j++){
-					this.desitionTable[j][i].setGroup(calculatedRow[j]);
-				}
+	public void mergeRowsForOperation3() {
+		if(desitionTable != null){
+			int x = desitionTable.length;
+			int y = desitionTable[0].length;
+			for(int i = 1; i < y; i++){
+
 			}
 		}
-
 	}
 
 	public void mergeColumnsForOperation3() {
@@ -301,7 +300,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 					int nextColumnIndex = i + 1;
 					if(previousColumnIndex > 0 && nextColumnIndex < y){
 						boolean columnsAreSame = true;
-						for(int j = 0; j < x; j++){
+						for(int j = 0; j < y; j++){
 							if(desitionTable[previousColumnIndex][j].getGroup() != desitionTable[nextColumnIndex][j].getGroup()){
 								columnsAreSame = false;
 								break;
@@ -320,6 +319,17 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			}
 
 		}
+	}
+
+	private void setCalculatedRowToMergedColumns(int[] calculatedRow, int mergedRowIndex) {
+		for(int i = 0; i < this.rows.length; i++){
+			if(this.rows[i] == mergedRowIndex){
+				for(int j = 0; j < columns.length; j++){
+					this.desitionTable[j][i].setGroup(calculatedRow[j]);
+				}
+			}
+		}
+
 	}
 
 	private boolean isRowValuesAllZero(int rowIndex) {
@@ -408,4 +418,62 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		this.rows[secondRowIndex] = rowIndex;
 
 	}
+
+	public void mergeColumnsForOperation4() {
+		if(desitionTable != null){
+			int x = desitionTable.length;
+			int y = desitionTable[0].length;
+			for(int i = 1; i < y - 1; i++){
+				if(isColumnValuesAllZero(desitionTable[i - 1])){
+					continue;
+				}
+				if(isColumnValuesAllZero(desitionTable[i + 1])){
+					continue;
+				}
+				if(isColumnValuesAllZero(desitionTable[i])){
+					int previousColumnIndex = i - 1;
+					int nextColumnIndex = i + 1;
+					if(previousColumnIndex > 0 && nextColumnIndex < y){
+						boolean columnsAreSame = true;
+						for(int j = 0; j < y; j++){
+							if(desitionTable[previousColumnIndex][j].getGroup() == desitionTable[nextColumnIndex][j].getGroup()
+									|| (desitionTable[previousColumnIndex][j].getGroup() == 0 && desitionTable[nextColumnIndex][j].getGroup() != 0)
+									|| (desitionTable[previousColumnIndex][j].getGroup() != 0 && desitionTable[nextColumnIndex][j].getGroup() == 0)){
+								continue;
+							} else{
+								columnsAreSame = false;
+								break;
+							}
+						}
+						if(columnsAreSame){
+							LOGGER.debug("Operation 4 #  Column -> " + (i - 1) + " and Column -> " + i + "and Column ->" + (i + 1) + " are merged");
+							mergeColumns(i);
+							for(int j = 0; j < y; j++){
+								int columnValue = 0;
+								if(desitionTable[nextColumnIndex][j].getGroup() != 0){
+									columnValue = desitionTable[nextColumnIndex][j].getGroup();
+								} else if(desitionTable[previousColumnIndex][j].getGroup() != 0){
+									columnValue = desitionTable[previousColumnIndex][j].getGroup();
+								} else{
+									columnValue = 0;
+									this.mergedColumnIndex++;
+								}
+								desitionTable[previousColumnIndex][j].setGroup(columnValue);
+								desitionTable[i][j].setGroup(columnValue);
+								desitionTable[nextColumnIndex][j].setGroup(columnValue);
+							}
+						}
+
+					}
+				}
+			}
+
+		}
+	}
+
+	public void mergeRowsForOperation4() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -76,6 +76,105 @@ public class FuzzyMembershipConstructionServiceTest {
 	}
 	
 	@Test
+	public void mergeColumnsForOperation4_NoParam_MergesSameColumns() {
+		
+		this.service.findAndSetSmallestPredefinedUnitForAge();
+		this.service.findAndSetSmallestPredefinedUnitForProperty();
+		this.service.constructInitialDecisionTable();
+		
+		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
+		for(int i = 0; i < 13; i++){
+			for(int j = 0; j < 9; j++){
+				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
+			}
+		}
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		
+		this.service.desitionTable = desitionTable;
+		this.service.mergeAdjacentColumnsIfTheyAreSame();
+		this.service.mergeAdjacentRowsIfTheyAreSame();
+		this.service.mergeAdjacentColumsForOperation2();		
+		this.service.mergeAdjacentRowsForOperation2();		
+		this.service.mergeColumnsForOperation3();		
+		this.service.mergeRowsForOperation3();
+		
+		this.service.mergeColumnsForOperation4();
+	}
+	
+	@Test
+	public void mergeRowsForOperation4_NoParam_MergesSameColumns() {
+		this.service.findAndSetSmallestPredefinedUnitForAge();
+		this.service.findAndSetSmallestPredefinedUnitForProperty();
+		this.service.constructInitialDecisionTable();
+		
+		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
+		for(int i = 0; i < 13; i++){
+			for(int j = 0; j < 9; j++){
+				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
+			}
+		}
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		
+		this.service.desitionTable = desitionTable;
+		this.service.mergeAdjacentColumnsIfTheyAreSame();
+		this.service.mergeAdjacentRowsIfTheyAreSame();
+		this.service.mergeAdjacentColumsForOperation2();		
+		this.service.mergeAdjacentRowsForOperation2();		
+		this.service.mergeColumnsForOperation3();		
+		this.service.mergeRowsForOperation3();		
+		this.service.mergeColumnsForOperation4();
+		
+		this.service.mergeRowsForOperation4();
+	}
+	@Test
+	public void mergeRowsForOperation3_NoParam_MergesSameColumns() {
+		this.service.findAndSetSmallestPredefinedUnitForAge();
+		this.service.findAndSetSmallestPredefinedUnitForProperty();
+		this.service.constructInitialDecisionTable();
+		
+		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
+		for(int i = 0; i < 13; i++){
+			for(int j = 0; j < 9; j++){
+				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
+			}
+		}
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		
+		this.service.desitionTable = desitionTable;
+		this.service.mergeAdjacentColumnsIfTheyAreSame();
+		this.service.mergeAdjacentRowsIfTheyAreSame();
+		this.service.mergeAdjacentColumsForOperation2();		
+		this.service.mergeAdjacentRowsForOperation2();		
+		this.service.mergeColumnsForOperation3();
+		
+		this.service.mergeRowsForOperation3();
+	}
+	
+	@Test
 	public void mergeColumnsForOperation3_NoParam_MergesSameColumns() {
 		this.service.findAndSetSmallestPredefinedUnitForAge();
 		this.service.findAndSetSmallestPredefinedUnitForProperty();
