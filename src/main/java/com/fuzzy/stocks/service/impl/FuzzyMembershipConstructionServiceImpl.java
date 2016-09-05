@@ -281,41 +281,49 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			for(int i = 1; i < y - 1; i++){
 
 				if(isRowValuesAllZero(i)){
-					int previousRowIndex = calculatePreviousRowIndexBasedOnMergeOperations(i);
-					int nextRowIndex = calculateNextRowIndexBasedOnMergeOperations(i);
-					if(isRowValuesAllZero(previousRowIndex)){
-						continue;
-					}
-					if(isRowValuesAllZero(nextRowIndex)){
-						continue;
-					}
-					DecisionTableElement[] previousRow = desitionTable[i - 1];
-					DecisionTableElement[] nextRow = desitionTable[i + 1];
-					boolean allRowsAreSame = true;
-					for(int j = 0; j < previousRow.length; j++){
-						if(previousRow[j].getGroup() != 0 && nextRow[j].getGroup() != 0 && previousRow[j].getGroup() == nextRow[j].getGroup()){
+
+					if(isRowValuesAllZero(i)){
+						int previousRowIndex = calculatePreviousRowIndexBasedOnMergeOperations(i);
+						int nextRowIndex = calculateNextRowIndexBasedOnMergeOperations(i);
+						if(isRowValuesAllZero(previousRowIndex)){
 							continue;
-						} else{
-							allRowsAreSame = false;
-							break;
 						}
-					}
-					if(allRowsAreSame){
-						LOGGER.debug("Operation 3 #  Rows between-> " + previousRowIndex + " and Row -> " + nextRowIndex + " are merged");
-						mergeRowsForInterval(previousRowIndex, i, nextRowIndex);
-						int[] calculatedRow = new int[previousRow.length];
-						for(int j = 0; j < previousRow.length; j++){
-							int currentValue = 0;
-							if(previousRow[j].getGroup() != 0){
-								currentValue = previousRow[j].getGroup();
+						if(isRowValuesAllZero(nextRowIndex)){
+							continue;
+						}
+
+						boolean allRowsAreSame = true;
+						for(int j = 0; j < x; j++){
+							if(desitionTable[j][previousRowIndex].getGroup() != 0 && desitionTable[j][nextRowIndex].getGroup() != 0
+									&& desitionTable[j][previousRowIndex].getGroup() == desitionTable[j][nextRowIndex].getGroup()){
+								continue;
+							} else{
+								allRowsAreSame = false;
+								break;
 							}
-							calculatedRow[j] = currentValue;
 						}
-						setAllRowsWithSameCalculatedRow(calculatedRow, i);
+						if(allRowsAreSame){
+							LOGGER.debug("Operation 4 #  Rows between-> " + previousRowIndex + " and Row -> " + nextRowIndex + " are merged");
+							mergeRowsForInterval(previousRowIndex, i, nextRowIndex);
+							int[] calculatedRow = new int[x];
+							for(int j = 0; j < x; j++){
+								int currentValue = 0;
+								if(desitionTable[j][previousRowIndex].getGroup() != 0){
+									currentValue = desitionTable[j][previousRowIndex].getGroup();
+								}
+								if(desitionTable[j][nextRowIndex].getGroup() != 0){
+									currentValue = desitionTable[j][nextRowIndex].getGroup();
+								}
+								calculatedRow[j] = currentValue;
+							}
+							setAllRowsWithSameCalculatedRow(calculatedRow, i);
+						}
+
 					}
 				}
 			}
 		}
+
 	}
 
 	private void setAllRowsWithSameCalculatedRow(int[] calculatedRow, int currentIndex) {
@@ -329,7 +337,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				}
 			}
 		}
-
 	}
 
 	private void mergeRowsForInterval(int previousRowIndex, int currentRowIndex, int nextRowIndex) {
@@ -338,6 +345,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			rowIndex = rows[nextRowIndex];
 		} else if(rows[previousRowIndex] != 0){
 			rowIndex = rows[previousRowIndex];
+		} else if(rows[currentRowIndex] != 0){
+			rowIndex = rows[currentRowIndex];
 		} else{
 			rowIndex = this.mergedRowIndex;
 			this.mergedRowIndex++;
@@ -345,15 +354,24 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		int previousMergedValue = rows[previousRowIndex];
 		int nextMergedValue = rows[nextRowIndex];
 		int currentValue = rows[currentRowIndex];
+		if(previousMergedValue == 0){
+			this.rows[previousRowIndex] = rowIndex;
+		}
+		if(currentValue == 0){
+			this.rows[currentRowIndex] = rowIndex;
+		}
+		if(nextMergedValue == 0){
+			this.rows[nextRowIndex] = rowIndex;
+		}
 		for(int i = 0; i < this.rows.length; i++){
-			if(this.rows[i] == previousMergedValue){
-
-			} else if(this.rows[i] == nextMergedValue){
-
-			} else if(this.rows[i] == currentValue){
-
+			if(previousMergedValue != 0 && this.rows[i] == previousMergedValue){
+				this.rows[i] = rowIndex;
+			} else if(nextMergedValue != 0 && this.rows[i] == nextMergedValue){
+				this.rows[i] = rowIndex;
+			} else if(currentValue != 0 && this.rows[i] == currentValue){
+				this.rows[i] = rowIndex;
 			}
-			this.rows[i] = rowIndex;
+
 		}
 	}
 
@@ -571,7 +589,54 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 	}
 
 	public void mergeRowsForOperation4() {
-		// TODO Auto-generated method stub
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
+		if(desitionTable != null){
+			int x = desitionTable.length;
+			int y = desitionTable[0].length;
+			for(int i = 1; i < y - 1; i++){
+
+				if(isRowValuesAllZero(i)){
+					int previousRowIndex = calculatePreviousRowIndexBasedOnMergeOperations(i);
+					int nextRowIndex = calculateNextRowIndexBasedOnMergeOperations(i);
+					if(isRowValuesAllZero(previousRowIndex)){
+						continue;
+					}
+					if(isRowValuesAllZero(nextRowIndex)){
+						continue;
+					}
+
+					boolean allRowsAreSame = true;
+					for(int j = 0; j < x; j++){
+						if((desitionTable[j][previousRowIndex].getGroup() == 0 && desitionTable[j][nextRowIndex].getGroup() != 0)
+								|| (desitionTable[j][previousRowIndex].getGroup() != 0 && desitionTable[j][nextRowIndex].getGroup() == 0)
+								|| (desitionTable[j][previousRowIndex].getGroup() == 0 && desitionTable[j][nextRowIndex].getGroup() == 0) || (desitionTable[j][previousRowIndex].getGroup() != 0
+										&& desitionTable[j][nextRowIndex].getGroup() != 0 && desitionTable[j][previousRowIndex].getGroup() == desitionTable[j][nextRowIndex].getGroup())){
+							continue;
+						} else{
+							allRowsAreSame = false;
+							break;
+						}
+					}
+					if(allRowsAreSame){
+						LOGGER.debug("Operation 4 #  Rows between-> " + previousRowIndex + " and Row -> " + nextRowIndex + " are merged");
+						mergeRowsForInterval(previousRowIndex, i, nextRowIndex);
+						int[] calculatedRow = new int[x];
+						for(int j = 0; j < x; j++){
+							int currentValue = 0;
+							if(desitionTable[j][previousRowIndex].getGroup() != 0){
+								currentValue = desitionTable[j][previousRowIndex].getGroup();
+							}
+							if(desitionTable[j][nextRowIndex].getGroup() != 0){
+								currentValue = desitionTable[j][nextRowIndex].getGroup();
+							}
+							calculatedRow[j] = currentValue;
+						}
+						setAllRowsWithSameCalculatedRow(calculatedRow, i);
+					}
+				}
+			}
+		}
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
 
 	}
 
