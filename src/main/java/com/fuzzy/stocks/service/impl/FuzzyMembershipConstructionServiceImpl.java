@@ -278,10 +278,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			}
 		}
 
-		
 	}
 
-		
 	public void mergeRowsForOperation3() {
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -331,8 +329,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				}
 			}
 		}
-		
-		
 
 	}
 
@@ -340,9 +336,9 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		if(currentIndex > 0 && currentIndex < this.rows.length){
 			for(int i = 0; i < this.rows.length; i++){
 				if(this.rows[currentIndex] == this.rows[i]){
-					DecisionTableElement[] currentRow = this.desitionTable[i];
-					for(int j = 0; j < currentRow.length; j++){
-						currentRow[j].setGroup(calculatedRow[j]);
+					for(int j = 0;j<this.columns.length;j++)
+					{
+						this.desitionTable[j][i].setGroup(calculatedRow[j]);
 					}
 				}
 			}
@@ -547,13 +543,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 	}
 
 	public void mergeColumnsForOperation4() {
-		
-		LOGGER.debug("Printing  merged Columns after mergeColumnsForOperation4");
-		FuzzyMembershipPrintServiceImpl.printDecitionTableMergedColumns(this.columns);
-		LOGGER.debug("Printing  desitionTable before mergeColumnsForOperation4");
-		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
-		
-		
 		if(desitionTable != null){
 			int x = desitionTable.length;
 			int y = desitionTable[0].length;
@@ -581,7 +570,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						}
 						if(columnsAreSame){
 							LOGGER.debug("Operation 4 #  Column -> " + (i - 1) + " and Column -> " + i + "and Column ->" + (i + 1) + " are merged");
-							mergeColumns(i);
+							int mergedValue = mergeColumns(i);
+							int[] calculatedColumn = new int[y];
 							for(int j = 0; j < y; j++){
 								int columnValue = 0;
 								if(desitionTable[nextColumnIndex][j].getGroup() != 0){
@@ -592,10 +582,9 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 									columnValue = 0;
 									this.mergedColumnIndex++;
 								}
-								desitionTable[previousColumnIndex][j].setGroup(columnValue);
-								desitionTable[i][j].setGroup(columnValue);
-								desitionTable[nextColumnIndex][j].setGroup(columnValue);
+								calculatedColumn[j] = columnValue;
 							}
+							this.setAllColumnsWithSameCalculatedRow(calculatedColumn, mergedValue);
 						}
 
 					}
@@ -603,14 +592,26 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			}
 
 		}
-		
-		LOGGER.debug("Printing  merged Columns after mergeColumnsForOperation4");
-		FuzzyMembershipPrintServiceImpl.printDecitionTableMergedColumns(this.columns);
-		LOGGER.debug("Printing  desitionTable after mergeColumnsForOperation4");
-		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
+
+	}
+
+	private void setAllColumnsWithSameCalculatedRow(int[] calculatedColumn, int mergedValue) {
+		for(int i = 0; i < this.columns.length; i++){
+			if(this.columns[i] == mergedValue){
+				for(int j = 0; j < this.rows.length; j++){
+					this.desitionTable[i][j].setGroup(calculatedColumn[j]);
+				}
+			}
+		}
+
 	}
 
 	public void mergeRowsForOperation4() {
+
+		LOGGER.debug("Printing  merged Columns after mergeRowsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTableMergedRows(this.rows);
+		LOGGER.debug("Printing  desitionTable before mergeRowsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
 
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -658,6 +659,10 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				}
 			}
 		}
+		LOGGER.debug("Printing  merged Columns after mergeColumnsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTableMergedRows(this.rows);
+		LOGGER.debug("Printing  desitionTable after mergeRowsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
 
 	}
 
