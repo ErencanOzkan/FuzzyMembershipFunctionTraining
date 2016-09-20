@@ -152,6 +152,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 	}
 
 	public void mergeAdjacentRowsIfTheyAreSame() {
+
 		if(desitionTable != null){
 			int x = desitionTable.length;
 			int y = desitionTable[0].length;
@@ -176,9 +177,11 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				}
 			}
 		}
+
 	}
 
 	public void mergeAdjacentColumsForOperation2() {
+
 		if(desitionTable != null){
 			int x = desitionTable.length;
 			int y = desitionTable[0].length;
@@ -228,9 +231,11 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				firstColumn = secondColumn;
 			}
 		}
+
 	}
 
 	public void mergeAdjacentRowsForOperation2() {
+
 		if(desitionTable != null){
 			int x = desitionTable.length;
 			int y = desitionTable[0].length;
@@ -272,8 +277,11 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				}
 			}
 		}
+
+		
 	}
 
+		
 	public void mergeRowsForOperation3() {
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -323,6 +331,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				}
 			}
 		}
+		
+		
 
 	}
 
@@ -537,6 +547,13 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 	}
 
 	public void mergeColumnsForOperation4() {
+		
+		LOGGER.debug("Printing  merged Columns after mergeColumnsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTableMergedColumns(this.columns);
+		LOGGER.debug("Printing  desitionTable before mergeColumnsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
+		
+		
 		if(desitionTable != null){
 			int x = desitionTable.length;
 			int y = desitionTable[0].length;
@@ -586,10 +603,15 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			}
 
 		}
+		
+		LOGGER.debug("Printing  merged Columns after mergeColumnsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTableMergedColumns(this.columns);
+		LOGGER.debug("Printing  desitionTable after mergeColumnsForOperation4");
+		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
 	}
 
 	public void mergeRowsForOperation4() {
-		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
+
 		if(desitionTable != null){
 			int x = desitionTable.length;
 			int y = desitionTable[0].length;
@@ -636,7 +658,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				}
 			}
 		}
-		FuzzyMembershipPrintServiceImpl.printDecitionTable(desitionTable);
 
 	}
 

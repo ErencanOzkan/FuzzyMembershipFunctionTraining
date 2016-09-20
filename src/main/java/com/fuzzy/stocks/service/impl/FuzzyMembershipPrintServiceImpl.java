@@ -30,4 +30,22 @@ public class FuzzyMembershipPrintServiceImpl implements FuzzyMembershipPrintServ
 			System.out.println();
 		}
 	}
+
+	public static void printDecitionTableMergedColumns(int[] columns) {
+		System.out.print("columns -> ");
+		for(int i = 0; i< columns.length; i++)
+		{
+			System.out.format("( [%d] : %d) ", i, columns[i]);
+		}
+		System.out.println("");
+	}
+
+	public static void printDecitionTableMergedRows(int[] rows) {
+		System.out.print("rows -> ");
+		for(int i = 0; i< rows.length; i++)
+		{
+			System.out.format("( [%d] : %d) ", i, rows[i]);
+		}
+		System.out.println("");		
+	}
 }

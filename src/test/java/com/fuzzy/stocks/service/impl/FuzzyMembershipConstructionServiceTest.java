@@ -74,47 +74,71 @@ public class FuzzyMembershipConstructionServiceTest {
 
 		service = (FuzzyMembershipConstructionServiceImpl) new FuzzyMembershipConstructionServiceImpl.FuzzyMembershipConstructionServiceBuilder(data).build();
 	}
-	
+
 	@Test
 	public void mergeColumnsForOperation4_NoParam_MergesSameColumns() {
+
+		this.service.mergedColumnIndex = 5;
+		this.service.mergedRowIndex = 4;
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
 		
-		this.service.findAndSetSmallestPredefinedUnitForAge();
-		this.service.findAndSetSmallestPredefinedUnitForProperty();
-		this.service.constructInitialDecisionTable();
-		
-		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
-		for(int i = 0; i < 13; i++){
-			for(int j = 0; j < 9; j++){
-				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
-			}
-		}
+		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
-		
+
 		this.service.desitionTable = desitionTable;
-		this.service.mergeAdjacentColumnsIfTheyAreSame();
-		this.service.mergeAdjacentRowsIfTheyAreSame();
-		this.service.mergeAdjacentColumsForOperation2();		
-		this.service.mergeAdjacentRowsForOperation2();		
-		this.service.mergeColumnsForOperation3();		
-		this.service.mergeRowsForOperation3();
-		
+		this.service.columns = this.getInitialColumns();
+		this.service.rows = this.getInitialRows();
+		this.service.columns[0] = 1;
+		this.service.columns[1] = 1;
+		this.service.columns[2] = 1;
+		this.service.columns[3] = 2;
+		this.service.columns[4] = 2;
+		this.service.columns[5] = 4;
+		this.service.columns[6] = 4;
+		this.service.columns[9] = 3;
+		this.service.columns[10] = 3;
+		this.service.columns[11] = 3;
+
 		this.service.mergeColumnsForOperation4();
+		
+		assertTrue(this.service.columns[0] == 1);
+		assertTrue(this.service.columns[1] == 1);
+		assertTrue(this.service.columns[2] == 1);
+		assertTrue(this.service.columns[3] == 2);
+		assertTrue(this.service.columns[4] == 2);
+		assertTrue(this.service.columns[5] == 4);
+		assertTrue(this.service.columns[6] == 4);
+		assertTrue(this.service.columns[7] == 4);
+		assertTrue(this.service.columns[8] == 4);
+		assertTrue(this.service.columns[9] == 3);
+		assertTrue(this.service.columns[10] == 3);
+		assertTrue(this.service.columns[11] ==3);
+		assertTrue(this.service.columns[12] == 0);
+		
 	}
-	
+
 	@Test
 	public void mergeRowsForOperation4_NoParam_MergesSameColumns() {
 		this.service.findAndSetSmallestPredefinedUnitForAge();
 		this.service.findAndSetSmallestPredefinedUnitForProperty();
 		this.service.constructInitialDecisionTable();
-		
+
 		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
 		for(int i = 0; i < 13; i++){
 			for(int j = 0; j < 9; j++){
@@ -129,109 +153,179 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
-		
-		this.service.desitionTable = desitionTable;
-		this.service.mergeAdjacentColumnsIfTheyAreSame();
-		this.service.mergeAdjacentRowsIfTheyAreSame();
-		this.service.mergeAdjacentColumsForOperation2();		
-		this.service.mergeAdjacentRowsForOperation2();		
-		this.service.mergeColumnsForOperation3();		
-		this.service.mergeRowsForOperation3();		
-		this.service.mergeColumnsForOperation4();
-		
-		this.service.mergeRowsForOperation4();
-	}
-	@Test
-	public void mergeRowsForOperation3_NoParam_MergesSameColumns() {
-		this.service.findAndSetSmallestPredefinedUnitForAge();
-		this.service.findAndSetSmallestPredefinedUnitForProperty();
-		this.service.constructInitialDecisionTable();
-		
-		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
-		for(int i = 0; i < 13; i++){
-			for(int j = 0; j < 9; j++){
-				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
-			}
-		}
-		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
-		
-		this.service.desitionTable = desitionTable;
-		this.service.mergeAdjacentColumnsIfTheyAreSame();
-		this.service.mergeAdjacentRowsIfTheyAreSame();
-		this.service.mergeAdjacentColumsForOperation2();		
-		this.service.mergeAdjacentRowsForOperation2();		
-		this.service.mergeColumnsForOperation3();
-		
-		this.service.mergeRowsForOperation3();
-	}
-	
-	@Test
-	public void mergeColumnsForOperation3_NoParam_MergesSameColumns() {
-		this.service.findAndSetSmallestPredefinedUnitForAge();
-		this.service.findAndSetSmallestPredefinedUnitForProperty();
-		this.service.constructInitialDecisionTable();
-		
-		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
-		for(int i = 0; i < 13; i++){
-			for(int j = 0; j < 9; j++){
-				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
-			}
-		}
-		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
-		
-		this.service.desitionTable = desitionTable;
-		this.service.mergeAdjacentColumnsIfTheyAreSame();
-		this.service.mergeAdjacentRowsIfTheyAreSame();
-		this.service.mergeAdjacentColumsForOperation2();		
-		this.service.mergeAdjacentRowsForOperation2();
-		
-		this.service.mergeColumnsForOperation3();
-	}
-	
-	@Test
-	public void mergeAdjacentRowsForOperation2_NoParam_MergesSameColumns() {
-		this.service.findAndSetSmallestPredefinedUnitForAge();
-		this.service.findAndSetSmallestPredefinedUnitForProperty();
-		this.service.constructInitialDecisionTable();
-		
-		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
-		for(int i = 0; i < 13; i++){
-			for(int j = 0; j < 9; j++){
-				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
-			}
-		}
-		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
-		
+
 		this.service.desitionTable = desitionTable;
 		this.service.mergeAdjacentColumnsIfTheyAreSame();
 		this.service.mergeAdjacentRowsIfTheyAreSame();
 		this.service.mergeAdjacentColumsForOperation2();
-	
+		this.service.mergeAdjacentRowsForOperation2();
+		this.service.mergeColumnsForOperation3();
+		this.service.mergeRowsForOperation3();
+		this.service.mergeColumnsForOperation4();
+
+		this.service.mergeRowsForOperation4();
+	}
+
+	@Test
+	public void mergeRowsForOperation3_NoParam_MergesSameColumns() {
+		this.service.mergedColumnIndex = 4;
+		this.service.mergedRowIndex = 3;
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+
+		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
+		this.service.rows = this.getInitialRows();
+		this.service.rows[1] = 1;
+		this.service.rows[2] = 1;
+		this.service.rows[3] = 1;
+		this.service.rows[5] = 2;
+		this.service.rows[6] = 2;
+		this.service.rows[7] = 3;
+		this.service.rows[8] = 3;
+		
+
+		this.service.mergeRowsForOperation3();
+		
+		assertTrue(this.service.rows[0] == 0);
+
+		assertTrue(this.service.rows[1] == this.service.rows[2]);
+		assertTrue(this.service.rows[1] == 1);
+		assertTrue(this.service.rows[2] == 1);
+		assertTrue(this.service.rows[1] == this.service.rows[3]);
+		assertTrue(this.service.rows[3] == 1);
+
+		assertTrue(this.service.rows[4] == 0);
+
+		assertTrue(this.service.rows[5] == this.service.rows[6]);
+		assertTrue(this.service.rows[5] == 2);
+		assertTrue(this.service.rows[6] == 2);
+
+		assertTrue(this.service.rows[7] == this.service.rows[8]);
+		assertTrue(this.service.rows[7] == 3);
+		assertTrue(this.service.rows[8] == 3);
+	}
+
+	@Test
+	public void mergeColumnsForOperation3_NoParam_MergesSameColumns() {
+		this.service.mergedColumnIndex = 5;
+		this.service.mergedRowIndex = 4;
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+		
+		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
+		this.service.rows = this.getInitialRows();
+		this.service.columns[0] = 1;
+		this.service.columns[1] = 1;
+		this.service.columns[2] = 1;
+		this.service.columns[3] = 2;
+		this.service.columns[4] = 2;
+		this.service.columns[5] = 4;
+		this.service.columns[6] = 4;
+		this.service.columns[9] = 3;
+		this.service.columns[10] = 3;
+		this.service.columns[11] = 3;
+
+		this.service.mergeColumnsForOperation3();
+		
+		assertTrue(this.service.columns[0] == this.service.columns[1]);
+		assertTrue(this.service.columns[0] == 1);
+		assertTrue(this.service.columns[1] == 1);
+
+		assertTrue(this.service.columns[0] == this.service.columns[2]);
+		assertTrue(this.service.columns[2] == 1);
+
+		assertTrue(this.service.columns[3] == this.service.columns[4]);
+		assertTrue(this.service.columns[3] == 2);
+		assertTrue(this.service.columns[4] == 2);
+
+		assertTrue(this.service.columns[5] == this.service.columns[6]);
+		assertTrue(this.service.columns[5] == 4);
+		assertTrue(this.service.columns[6] == 4);
+
+		assertTrue(this.service.columns[7] == 0);
+		assertTrue(this.service.columns[8] == 0);
+
+		assertTrue(this.service.columns[9] == this.service.columns[10]);
+		assertTrue(this.service.columns[9] == 3);
+		assertTrue(this.service.columns[10] == 3);
+		assertTrue(this.service.columns[9] == this.service.columns[11]);
+		assertTrue(this.service.columns[11] == 3);
+
+		assertTrue(this.service.columns[12] == 0);
+		
+	}
+
+	@Test
+	public void mergeAdjacentRowsForOperation2_NoParam_MergesSameColumns() {
+		this.service.mergedColumnIndex = 4;
+		this.service.mergedRowIndex = 3;
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+
+		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
+		this.service.rows = this.getInitialRows();
+		this.service.rows[1] = 1;
+		this.service.rows[2] = 1;
+		this.service.rows[3] = 1;
+		this.service.rows[5] = 2;
+		this.service.rows[6] = 2;
 		
 		this.service.mergeAdjacentRowsForOperation2();
 
@@ -242,13 +336,13 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.rows[2] == 1);
 		assertTrue(this.service.rows[1] == this.service.rows[3]);
 		assertTrue(this.service.rows[3] == 1);
-		
+
 		assertTrue(this.service.rows[4] == 0);
-		
+
 		assertTrue(this.service.rows[5] == this.service.rows[6]);
 		assertTrue(this.service.rows[5] == 2);
 		assertTrue(this.service.rows[6] == 2);
-		
+
 		assertTrue(this.service.rows[7] == this.service.rows[8]);
 		assertTrue(this.service.rows[7] == 3);
 		assertTrue(this.service.rows[8] == 3);
@@ -256,31 +350,49 @@ public class FuzzyMembershipConstructionServiceTest {
 
 	@Test
 	public void mergeAdjacentColumsForOperation2_NoParam_MergesSameColumns() {
+		
+		this.service.mergedColumnIndex = 4;
+		this.service.mergedRowIndex = 2;
 
-		this.service.findAndSetSmallestPredefinedUnitForAge();
-		this.service.findAndSetSmallestPredefinedUnitForProperty();
-		this.service.constructInitialDecisionTable();
-		this.service.mergeAdjacentColumnsIfTheyAreSame();
-		this.service.mergeAdjacentRowsIfTheyAreSame();
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
+		this.service.rows = this.getInitialRows();
+		this.service.columns[0] = 1;
+		this.service.columns[1] = 1;
+		this.service.columns[3] = 2;
+		this.service.columns[4] = 2;
+		this.service.columns[9] = 3;
+		this.service.columns[10] = 3;
+		this.service.columns[11] = 3;
 
 		this.service.mergeAdjacentColumsForOperation2();
-		
+
 		assertTrue(this.service.columns[0] == this.service.columns[1]);
 		assertTrue(this.service.columns[0] == 1);
 		assertTrue(this.service.columns[1] == 1);
-		
+
 		assertTrue(this.service.columns[0] == this.service.columns[2]);
 		assertTrue(this.service.columns[2] == 1);
-		
 
 		assertTrue(this.service.columns[3] == this.service.columns[4]);
 		assertTrue(this.service.columns[3] == 2);
 		assertTrue(this.service.columns[4] == 2);
-		
+
 		assertTrue(this.service.columns[5] == this.service.columns[6]);
 		assertTrue(this.service.columns[5] == 4);
 		assertTrue(this.service.columns[6] == 4);
-		
+
 		assertTrue(this.service.columns[7] == 0);
 		assertTrue(this.service.columns[8] == 0);
 
@@ -294,12 +406,40 @@ public class FuzzyMembershipConstructionServiceTest {
 
 	}
 
+	private int[] getInitialColumns() {
+		return new int[13];
+	}
+
+	private int[] getInitialRows() {
+		return new int[9];
+	}
+
+	private DecisionTableElement[][] getInitialDecicionTable() {
+		DecisionTableElement[][] desitionTable = new DecisionTableElement[13][9];
+		for(int i = 0; i < 13; i++){
+			for(int j = 0; j < 9; j++){
+				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
+			}
+		}
+		return desitionTable;
+	}
+
 	@Test
 	public void mergeAdjacentRowsIfTheyAreSame_NoParam_MergesSameColumns() {
-		this.service.findAndSetSmallestPredefinedUnitForAge();
-		this.service.findAndSetSmallestPredefinedUnitForProperty();
-		this.service.constructInitialDecisionTable();
-		this.service.mergeAdjacentColumnsIfTheyAreSame();
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		this.service.desitionTable = desitionTable;
+		this.service.rows = this.getInitialRows();
 
 		this.service.mergeAdjacentRowsIfTheyAreSame();
 
@@ -312,17 +452,28 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.rows[3] == 1);
 
 		assertTrue(this.service.rows[4] == 0);
-		assertTrue(this.service.rows[5] == 0);
-		assertTrue(this.service.rows[6] == 0);
+		assertTrue(this.service.rows[5] == 2);
+		assertTrue(this.service.rows[6] == 2);
 		assertTrue(this.service.rows[7] == 0);
 		assertTrue(this.service.rows[8] == 0);
 	}
 
 	@Test
 	public void mergeAdjacentColumnsIfTheyAreSame_NoParam_MergesSameColumns() {
-		this.service.findAndSetSmallestPredefinedUnitForAge();
-		this.service.findAndSetSmallestPredefinedUnitForProperty();
-		this.service.constructInitialDecisionTable();
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
 
 		this.service.mergeAdjacentColumnsIfTheyAreSame();
 
