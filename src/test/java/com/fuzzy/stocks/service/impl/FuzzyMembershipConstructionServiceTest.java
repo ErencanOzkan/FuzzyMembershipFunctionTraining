@@ -76,6 +76,303 @@ public class FuzzyMembershipConstructionServiceTest {
 	}
 
 	@Test
+	public void mergeRowsForOperation5_NoParam_MergesSameRows() {
+		this.service.mergedColumnIndex = 5;
+		this.service.mergedRowIndex = 4;
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+		
+		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		desitionTable[0][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		desitionTable[0][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		
+		desitionTable[0][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][3] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][3] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][3] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		desitionTable[0][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][5] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][5] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][5] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		desitionTable[0][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][6] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][6] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][6] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		desitionTable[0][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		desitionTable[0][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[3][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[4][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[9][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[10][8] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[11][8] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][8] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		
+	
+
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
+		this.service.rows = this.getInitialRows();
+		this.service.rows[0] = 3;
+		this.service.rows[1] = 3;
+		this.service.rows[2] = 3;
+		this.service.rows[3] = 3;
+		this.service.rows[4] = 3;
+		this.service.rows[5] = 3;
+		this.service.rows[6] = 3;
+		this.service.rows[7] = 3;
+		this.service.rows[8] = 3;
+
+		this.service.mergeRowsForOperation5();
+		
+		assertTrue(this.service.rows[0] == 3);
+		assertTrue(this.service.rows[1] == 3);
+		assertTrue(this.service.rows[2] == 3);
+		assertTrue(this.service.rows[3] == 3);
+		assertTrue(this.service.rows[4] == 3);
+		assertTrue(this.service.rows[5] == 3);
+		assertTrue(this.service.rows[6] == 3);
+		assertTrue(this.service.rows[7] == 3);
+		assertTrue(this.service.rows[8] == 3);
+	}
+	
+	@Test
+	public void mergeColumnsForOperation5_NoParam_MergesSameColumns() {
+		
+		this.service.mergedColumnIndex = 5;
+		this.service.mergedRowIndex = 4;
+
+		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
+		
+		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[0][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[0][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[0][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();		
+
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[0][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[0][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[0][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[0][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		
+		desitionTable[5][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[7][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		
+	
+		desitionTable[12][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][3] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][5] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][6] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][8] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
+		this.service.rows = this.getInitialRows();
+		this.service.columns[0] = 1;
+		this.service.columns[1] = 1;
+		this.service.columns[2] = 1;
+		this.service.columns[3] = 2;
+		this.service.columns[4] = 2;
+		this.service.columns[5] = 4;
+		this.service.columns[6] = 4;
+		this.service.columns[7] = 4;
+		this.service.columns[8] = 4;
+		this.service.columns[9] = 3;
+		this.service.columns[10] = 3;
+		this.service.columns[11] = 3;
+		this.service.columns[12] = 0;
+
+		this.service.mergeColumnsForOperation5();
+		
+		assertTrue(this.service.columns[0] == 1);
+		assertTrue(this.service.columns[1] == 1);
+		assertTrue(this.service.columns[2] == 1);
+		assertTrue(this.service.columns[3] == 1);
+		assertTrue(this.service.columns[4] == 4);
+		assertTrue(this.service.columns[5] == 4);
+		assertTrue(this.service.columns[6] == 4);
+		assertTrue(this.service.columns[7] == 4);
+		assertTrue(this.service.columns[8] == 4);
+		assertTrue(this.service.columns[9] == 4);
+		assertTrue(this.service.columns[10] == 5);
+		assertTrue(this.service.columns[11] ==5);
+		assertTrue(this.service.columns[12] == 5);
+		
+	}
+	@Test
 	public void mergeColumnsForOperation4_NoParam_MergesSameColumns() {
 
 		this.service.mergedColumnIndex = 5;
@@ -134,7 +431,7 @@ public class FuzzyMembershipConstructionServiceTest {
 	}
 
 	@Test
-	public void mergeRowsForOperation4_NoParam_MergesSameColumns() {
+	public void mergeRowsForOperation4_NoParam_MergesSameRows() {
 		this.service.mergedColumnIndex = 5;
 		this.service.mergedRowIndex = 4;
 
@@ -191,7 +488,7 @@ public class FuzzyMembershipConstructionServiceTest {
 	}
 
 	@Test
-	public void mergeRowsForOperation3_NoParam_MergesSameColumns() {
+	public void mergeRowsForOperation3_NoParam_MergesSameRows() {
 		this.service.mergedColumnIndex = 4;
 		this.service.mergedRowIndex = 3;
 
@@ -318,7 +615,7 @@ public class FuzzyMembershipConstructionServiceTest {
 	}
 
 	@Test
-	public void mergeAdjacentRowsForOperation2_NoParam_MergesSameColumns() {
+	public void mergeAdjacentRowsForOperation2_NoParam_MergesSameRows() {
 		this.service.mergedColumnIndex = 4;
 		this.service.mergedRowIndex = 3;
 
@@ -449,7 +746,7 @@ public class FuzzyMembershipConstructionServiceTest {
 	}
 
 	@Test
-	public void mergeAdjacentRowsIfTheyAreSame_NoParam_MergesSameColumns() {
+	public void mergeAdjacentRowsIfTheyAreSame_NoParam_MergesSameRows() {
 
 		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
 
