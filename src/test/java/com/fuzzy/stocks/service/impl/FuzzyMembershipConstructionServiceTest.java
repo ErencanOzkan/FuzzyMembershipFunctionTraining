@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.fuzzy.stocks.enums.FuzzyMembershipCalculationStatusEnum;
 import com.fuzzy.stocks.model.DecisionTableElement;
 import com.fuzzy.stocks.model.FuzzyData;
+import com.fuzzy.stocks.model.MembershipModel;
 
 public class FuzzyMembershipConstructionServiceTest {
 
@@ -81,7 +82,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.mergedRowIndex = 4;
 
 		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
-		
+
 		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -95,7 +96,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
+
 		desitionTable[0][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -109,7 +110,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
+
 		desitionTable[0][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -123,8 +124,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
-		
+
 		desitionTable[0][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -138,7 +138,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][3] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][3] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][3] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
+
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -152,7 +152,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
+
 		desitionTable[0][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -166,7 +166,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][5] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][5] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][5] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
+
 		desitionTable[0][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -180,7 +180,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][6] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][6] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][6] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
+
 		desitionTable[0][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -194,7 +194,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
+
 		desitionTable[0][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -208,9 +208,6 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[10][8] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[11][8] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][8] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
-		
-		
-	
 
 		this.service.desitionTable = desitionTable;
 		this.service.columns = this.getInitialColumns();
@@ -226,7 +223,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.rows[8] = 3;
 
 		this.service.mergeRowsForOperation5();
-		
+
 		assertTrue(this.service.rows[0] == 3);
 		assertTrue(this.service.rows[1] == 3);
 		assertTrue(this.service.rows[2] == 3);
@@ -237,97 +234,96 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.rows[7] == 3);
 		assertTrue(this.service.rows[8] == 3);
 	}
-	
+
 	@Test
 	public void mergeColumnsForOperation5_NoParam_MergesSameColumns() {
-		
+
 		this.service.mergedColumnIndex = 5;
 		this.service.mergedRowIndex = 4;
 
 		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
-		
+
 		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[0][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][1] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[0][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][2] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[0][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		desitionTable[2][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();		
+		desitionTable[2][3] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[0][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][5] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[0][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][6] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[0][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][7] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[0][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][8] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[5][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][1] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][2] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][3] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][5] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][6] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][7] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
-	
+
 		desitionTable[12][0] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][1] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][2] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
@@ -356,7 +352,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.columns[12] = 0;
 
 		this.service.mergeColumnsForOperation5();
-		
+
 		assertTrue(this.service.columns[0] == 1);
 		assertTrue(this.service.columns[1] == 1);
 		assertTrue(this.service.columns[2] == 1);
@@ -368,10 +364,11 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.columns[8] == 4);
 		assertTrue(this.service.columns[9] == 4);
 		assertTrue(this.service.columns[10] == 5);
-		assertTrue(this.service.columns[11] ==5);
+		assertTrue(this.service.columns[11] == 5);
 		assertTrue(this.service.columns[12] == 5);
-		
+
 	}
+
 	@Test
 	public void mergeColumnsForOperation4_NoParam_MergesSameColumns() {
 
@@ -379,7 +376,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.mergedRowIndex = 4;
 
 		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
-		
+
 		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -387,13 +384,13 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
@@ -413,7 +410,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.columns[11] = 3;
 
 		this.service.mergeColumnsForOperation4();
-		
+
 		assertTrue(this.service.columns[0] == 1);
 		assertTrue(this.service.columns[1] == 1);
 		assertTrue(this.service.columns[2] == 1);
@@ -425,9 +422,9 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.columns[8] == 4);
 		assertTrue(this.service.columns[9] == 3);
 		assertTrue(this.service.columns[10] == 3);
-		assertTrue(this.service.columns[11] ==3);
+		assertTrue(this.service.columns[11] == 3);
 		assertTrue(this.service.columns[12] == 0);
-		
+
 	}
 
 	@Test
@@ -436,7 +433,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.mergedRowIndex = 4;
 
 		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
-		
+
 		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -444,22 +441,22 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[5][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[7][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[8][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 
@@ -475,7 +472,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.rows[8] = 3;
 
 		this.service.mergeRowsForOperation4();
-		
+
 		assertTrue(this.service.rows[1] == 3);
 		assertTrue(this.service.rows[2] == 3);
 		assertTrue(this.service.rows[3] == 3);
@@ -484,7 +481,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.rows[6] == 3);
 		assertTrue(this.service.rows[7] == 3);
 		assertTrue(this.service.rows[8] == 3);
-		
+
 	}
 
 	@Test
@@ -501,13 +498,13 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
@@ -522,10 +519,9 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.rows[6] = 2;
 		this.service.rows[7] = 3;
 		this.service.rows[8] = 3;
-		
 
 		this.service.mergeRowsForOperation3();
-		
+
 		assertTrue(this.service.rows[0] == 0);
 
 		assertTrue(this.service.rows[1] == this.service.rows[2]);
@@ -551,7 +547,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.mergedRowIndex = 4;
 
 		DecisionTableElement[][] desitionTable = getInitialDecicionTable();
-		
+
 		desitionTable[0][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
@@ -559,13 +555,13 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
@@ -585,7 +581,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.columns[11] = 3;
 
 		this.service.mergeColumnsForOperation3();
-		
+
 		assertTrue(this.service.columns[0] == this.service.columns[1]);
 		assertTrue(this.service.columns[0] == 1);
 		assertTrue(this.service.columns[1] == 1);
@@ -611,7 +607,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.columns[11] == 3);
 
 		assertTrue(this.service.columns[12] == 0);
-		
+
 	}
 
 	@Test
@@ -628,13 +624,13 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
 		desitionTable[2][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
-		
+
 		desitionTable[5][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[6][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
-		
+
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
@@ -647,7 +643,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		this.service.rows[3] = 1;
 		this.service.rows[5] = 2;
 		this.service.rows[6] = 2;
-		
+
 		this.service.mergeAdjacentRowsForOperation2();
 
 		assertTrue(this.service.rows[0] == 0);
@@ -671,7 +667,7 @@ public class FuzzyMembershipConstructionServiceTest {
 
 	@Test
 	public void mergeAdjacentColumsForOperation2_NoParam_MergesSameColumns() {
-		
+
 		this.service.mergedColumnIndex = 4;
 		this.service.mergedRowIndex = 2;
 
@@ -760,23 +756,53 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 
 		this.service.desitionTable = desitionTable;
-		this.service.rows = this.getInitialRows();
+		MembershipModel[] columnValues = new MembershipModel[13];
+		MembershipModel[] rowValues = new MembershipModel[9];
+
+		columnValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 20, 25).build();
+		columnValues[1] = new MembershipModel.MembershipModelBuilder(20, 25, 30).build();
+		columnValues[2] = new MembershipModel.MembershipModelBuilder(25, 30, 35).build();
+		columnValues[3] = new MembershipModel.MembershipModelBuilder(30, 35, 40).build();
+		columnValues[4] = new MembershipModel.MembershipModelBuilder(35, 40, 45).build();
+		columnValues[5] = new MembershipModel.MembershipModelBuilder(40, 45, 50).build();
+		columnValues[6] = new MembershipModel.MembershipModelBuilder(45, 50, 55).build();
+		columnValues[7] = new MembershipModel.MembershipModelBuilder(50, 55, 60).build();
+		columnValues[8] = new MembershipModel.MembershipModelBuilder(55, 60, 65).build();
+		columnValues[9] = new MembershipModel.MembershipModelBuilder(60, 65, 70).build();
+		columnValues[10] = new MembershipModel.MembershipModelBuilder(65, 70, 75).build();
+		columnValues[11] = new MembershipModel.MembershipModelBuilder(70, 75, 80).build();
+		columnValues[12] = new MembershipModel.MembershipModelBuilder(75, 80, Double.MAX_VALUE).build();
+
+		rowValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 10, 15).build();
+		rowValues[1] = new MembershipModel.MembershipModelBuilder(10, 15, 20).build();
+		rowValues[2] = new MembershipModel.MembershipModelBuilder(15, 20, 25).build();
+		rowValues[3] = new MembershipModel.MembershipModelBuilder(20, 25, 30).build();
+		rowValues[4] = new MembershipModel.MembershipModelBuilder(25, 30, 35).build();
+		rowValues[5] = new MembershipModel.MembershipModelBuilder(30, 35, 40).build();
+		rowValues[6] = new MembershipModel.MembershipModelBuilder(35, 40, 45).build();
+		rowValues[7] = new MembershipModel.MembershipModelBuilder(40, 45, 50).build();
+		rowValues[8] = new MembershipModel.MembershipModelBuilder(45, 50, Double.MAX_VALUE).build();
+		
+		this.service.desitionTable = desitionTable;
+		this.service.columns = this.getInitialColumns();
+		this.service.columnValues = columnValues;
+		this.service.rowValues = rowValues;
 
 		this.service.mergeAdjacentRowsIfTheyAreSame();
 
-		assertTrue(this.service.rows[0] == 0);
+		assertTrue(this.service.rowValues[0].getGoupingNumber() == 0);
 
-		assertTrue(this.service.rows[1] == this.service.rows[2]);
-		assertTrue(this.service.rows[1] == 1);
-		assertTrue(this.service.rows[2] == 1);
-		assertTrue(this.service.rows[1] == this.service.rows[3]);
-		assertTrue(this.service.rows[3] == 1);
+		assertTrue(this.service.rowValues[1].getGoupingNumber() == this.service.rowValues[2].getGoupingNumber());
+		assertTrue(this.service.rowValues[1].getGoupingNumber() == 1);
+		assertTrue(this.service.rowValues[2].getGoupingNumber() == 1);
+		assertTrue(this.service.rowValues[1].getGoupingNumber() == this.service.rowValues[3].getGoupingNumber());
+		assertTrue(this.service.rowValues[3].getGoupingNumber() == 1);
 
-		assertTrue(this.service.rows[4] == 0);
-		assertTrue(this.service.rows[5] == 2);
-		assertTrue(this.service.rows[6] == 2);
-		assertTrue(this.service.rows[7] == 0);
-		assertTrue(this.service.rows[8] == 0);
+		assertTrue(this.service.rowValues[4].getGoupingNumber() == 0);
+		assertTrue(this.service.rowValues[5].getGoupingNumber() == 2);
+		assertTrue(this.service.rowValues[6].getGoupingNumber() == 2);
+		assertTrue(this.service.rowValues[7].getGoupingNumber() == 0);
+		assertTrue(this.service.rowValues[8].getGoupingNumber() == 0);
 	}
 
 	@Test
@@ -793,33 +819,62 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 
+		MembershipModel[] columnValues = new MembershipModel[13];
+		MembershipModel[] rowValues = new MembershipModel[9];
+
+		columnValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 20, 25).build();
+		columnValues[1] = new MembershipModel.MembershipModelBuilder(20, 25, 30).build();
+		columnValues[2] = new MembershipModel.MembershipModelBuilder(25, 30, 35).build();
+		columnValues[3] = new MembershipModel.MembershipModelBuilder(30, 35, 40).build();
+		columnValues[4] = new MembershipModel.MembershipModelBuilder(35, 40, 45).build();
+		columnValues[5] = new MembershipModel.MembershipModelBuilder(40, 45, 50).build();
+		columnValues[6] = new MembershipModel.MembershipModelBuilder(45, 50, 55).build();
+		columnValues[7] = new MembershipModel.MembershipModelBuilder(50, 55, 60).build();
+		columnValues[8] = new MembershipModel.MembershipModelBuilder(55, 60, 65).build();
+		columnValues[9] = new MembershipModel.MembershipModelBuilder(60, 65, 70).build();
+		columnValues[10] = new MembershipModel.MembershipModelBuilder(65, 70, 75).build();
+		columnValues[11] = new MembershipModel.MembershipModelBuilder(70, 75, 80).build();
+		columnValues[12] = new MembershipModel.MembershipModelBuilder(75, 80, Double.MAX_VALUE).build();
+
+		rowValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 10, 15).build();
+		rowValues[1] = new MembershipModel.MembershipModelBuilder(10, 15, 20).build();
+		rowValues[2] = new MembershipModel.MembershipModelBuilder(15, 20, 25).build();
+		rowValues[3] = new MembershipModel.MembershipModelBuilder(20, 25, 30).build();
+		rowValues[4] = new MembershipModel.MembershipModelBuilder(25, 30, 35).build();
+		rowValues[5] = new MembershipModel.MembershipModelBuilder(30, 35, 40).build();
+		rowValues[6] = new MembershipModel.MembershipModelBuilder(35, 40, 45).build();
+		rowValues[7] = new MembershipModel.MembershipModelBuilder(40, 45, 50).build();
+		rowValues[8] = new MembershipModel.MembershipModelBuilder(45, 50, Double.MAX_VALUE).build();
+
 		this.service.desitionTable = desitionTable;
 		this.service.columns = this.getInitialColumns();
+		this.service.columnValues = columnValues;
+		this.service.rowValues = rowValues;
 
 		this.service.mergeAdjacentColumnsIfTheyAreSame();
 
-		assertTrue(this.service.columns[0] == this.service.columns[1]);
-		assertTrue(this.service.columns[0] == 1);
-		assertTrue(this.service.columns[1] == 1);
+		assertTrue(this.service.columnValues[0].getGoupingNumber() == this.service.columnValues[1].getGoupingNumber());
+		assertTrue(this.service.columnValues[0].getGoupingNumber() == 1);
+		assertTrue(this.service.columnValues[1].getGoupingNumber() == 1);
 
-		assertTrue(this.service.columns[2] == 0);
+		assertTrue(this.service.columnValues[2].getGoupingNumber() == 0);
 
-		assertTrue(this.service.columns[3] == this.service.columns[4]);
-		assertTrue(this.service.columns[3] == 2);
-		assertTrue(this.service.columns[4] == 2);
+		assertTrue(this.service.columnValues[3].getGoupingNumber() == this.service.columnValues[4].getGoupingNumber());
+		assertTrue(this.service.columnValues[3].getGoupingNumber() == 2);
+		assertTrue(this.service.columnValues[4].getGoupingNumber() == 2);
 
-		assertTrue(this.service.columns[5] == 0);
-		assertTrue(this.service.columns[6] == 0);
-		assertTrue(this.service.columns[7] == 0);
-		assertTrue(this.service.columns[8] == 0);
+		assertTrue(this.service.columnValues[5].getGoupingNumber() == 0);
+		assertTrue(this.service.columnValues[6].getGoupingNumber() == 0);
+		assertTrue(this.service.columnValues[7].getGoupingNumber() == 0);
+		assertTrue(this.service.columnValues[8].getGoupingNumber() == 0);
 
-		assertTrue(this.service.columns[9] == this.service.columns[10]);
-		assertTrue(this.service.columns[9] == 3);
-		assertTrue(this.service.columns[10] == 3);
-		assertTrue(this.service.columns[9] == this.service.columns[11]);
-		assertTrue(this.service.columns[11] == 3);
+		assertTrue(this.service.columnValues[9].getGoupingNumber() == this.service.columnValues[10].getGoupingNumber());
+		assertTrue(this.service.columnValues[9].getGoupingNumber() == 3);
+		assertTrue(this.service.columnValues[10].getGoupingNumber() == 3);
+		assertTrue(this.service.columnValues[9].getGoupingNumber() == this.service.columnValues[11].getGoupingNumber());
+		assertTrue(this.service.columnValues[11].getGoupingNumber() == 3);
 
-		assertTrue(this.service.columns[12] == 0);
+		assertTrue(this.service.columnValues[12].getGoupingNumber() == 0);
 
 	}
 

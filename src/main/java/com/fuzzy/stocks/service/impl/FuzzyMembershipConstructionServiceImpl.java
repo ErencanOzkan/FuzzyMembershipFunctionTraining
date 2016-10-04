@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import com.fuzzy.stocks.enums.FuzzyMembershipCalculationStatusEnum;
 import com.fuzzy.stocks.model.DecisionTableElement;
 import com.fuzzy.stocks.model.FuzzyData;
+import com.fuzzy.stocks.model.MembershipModel;
 import com.fuzzy.stocks.service.FuzzyMembershipConstructionService;
 import com.fuzzy.stocks.util.FuzzyDataUtil;
 
@@ -22,6 +23,9 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	int[] columns;
 	int[] rows;
+
+	MembershipModel[] columnValues;
+	MembershipModel[] rowValues;
 
 	int mergedColumnIndex = 1;
 	int mergedRowIndex = 1;
@@ -108,6 +112,44 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		desitionTable = new DecisionTableElement[decisionTableSizeX][decisionTableSizeY];
 		columns = new int[decisionTableSizeX];
 		rows = new int[decisionTableSizeY];
+
+		columnValues = new MembershipModel[decisionTableSizeX];
+		rowValues = new MembershipModel[decisionTableSizeY];
+		double minimumColumnValue = minimumAge;
+		double minimumRowValue = minimumProperty;
+		for(int i = 0; i < decisionTableSizeX; i++){
+			double a = 0;
+			double b = minimumColumnValue;
+			double c = minimumColumnValue + smallesetPredefinedUnitForProperty;
+			if(minimumColumnValue != minimumAge){
+				a = minimumColumnValue - smallesetPredefinedUnitForProperty;
+			}
+			if(maximumAge == minimumColumnValue){
+				c = Double.MAX_VALUE;
+			}
+			MembershipModel model = new MembershipModel.MembershipModelBuilder(a, b, c).build();
+			columnValues[i] = model;
+			minimumColumnValue += smallesetPredefinedUnitForProperty;
+			this.LOGGER.debug(i + "th column value calculated  " + model.toString());
+		}
+
+		for(int i = 0; i < decisionTableSizeY; i++){
+
+			double a = 0;
+			double b = minimumRowValue;
+			double c = minimumRowValue + smallesetPredefinedUnitForAge;
+			if(minimumRowValue != minimumProperty){
+				a = minimumRowValue - smallesetPredefinedUnitForAge;
+			}
+			if(maximumProperty == minimumRowValue){
+				c = Double.MAX_VALUE;
+			}
+			MembershipModel model = new MembershipModel.MembershipModelBuilder(a, b, c).build();
+			rowValues[i] = model;
+			minimumRowValue += smallesetPredefinedUnitForAge;
+			this.LOGGER.debug(i + "th row value calculated  " + model.toString());
+		}
+
 		for(int i = 0; i < decisionTableSizeX; i++){
 			for(int j = 0; j < decisionTableSizeY; j++){
 				desitionTable[i][j] = new DecisionTableElement.DecisionTableElementBuilder(0).build();
@@ -142,11 +184,15 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						firstColumn[j].setGroup(calculatedGroup);
 					}
 
-					mergeColumns(i - 1, i);
+					markColumnsToMerge(i - 1, i);
 
 				}
 				firstColumn = secondColumn;
 			}
+
+			this.columnValues[0].mergeForOperation1(this.columnValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.columnValues);
+
 		}
 
 	}
@@ -172,10 +218,13 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						desitionTable[i][j].setGroup(calculatedGroup);
 					}
 
-					mergeRows(j - 1, j);
+					markRowsToMerge(j - 1, j);
 
 				}
 			}
+			
+			this.rowValues[0].mergeForOperation1(this.rowValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.rowValues);
 		}
 
 	}
@@ -224,7 +273,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						}
 						calculatedColumn[j] = calculatedGroup;
 					}
-					mergeColumns(i - 1, i);
+					markColumnsToMerge(i - 1, i);
 					setCalculatedColumnToMergedColumns(calculatedColumn, columns[i]);
 
 				}
@@ -272,7 +321,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						calculatedRow[i] = calculatedGroup;
 					}
 
-					mergeRows(j - 1, j);
+					markRowsToMerge(j - 1, j);
 					setCalculatedRowToMergedColumns(calculatedRow, rows[j]);
 				}
 			}
@@ -509,35 +558,36 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
-	private int mergeColumns(int firstIndex, int secondIndex) {
+	private int markColumnsToMerge(int firstIndex, int secondIndex) {
 		int columnIndex = 0;
-		if(columns[secondIndex] != 0){
-			columnIndex = columns[secondIndex];
-		} else if(columns[firstIndex] != 0){
-			columnIndex = columns[firstIndex];
+		if(columnValues[secondIndex].getGoupingNumber() != 0){
+			columnIndex = columnValues[secondIndex].getGoupingNumber();
+		} else if(columnValues[firstIndex].getGoupingNumber() != 0){
+			columnIndex = columnValues[firstIndex].getGoupingNumber();
 		} else{
 			columnIndex = this.mergedColumnIndex;
 			this.mergedColumnIndex++;
 		}
 
-		this.columns[secondIndex] = columnIndex;
-		this.columns[firstIndex] = columnIndex;
+		this.columnValues[secondIndex].markGroupNumber(columnIndex);
+		this.columnValues[firstIndex].markGroupNumber(columnIndex);
 		return columnIndex;
 	}
 
-	private void mergeRows(int firstRowIndex, int secondRowIndex) {
+	private int markRowsToMerge(int firstRowIndex, int secondRowIndex) {
 
 		int rowIndex = 0;
-		if(rows[secondRowIndex] != 0){
-			rowIndex = rows[secondRowIndex];
-		} else if(rows[firstRowIndex] != 0){
-			rowIndex = rows[firstRowIndex];
+		if(rowValues[secondRowIndex].getGoupingNumber() != 0){
+			rowIndex = rowValues[secondRowIndex].getGoupingNumber();
+		} else if(rowValues[firstRowIndex].getGoupingNumber() != 0){
+			rowIndex = rowValues[firstRowIndex].getGoupingNumber();
 		} else{
 			rowIndex = this.mergedRowIndex;
 			this.mergedRowIndex++;
 		}
-		this.rows[firstRowIndex] = rowIndex;
-		this.rows[secondRowIndex] = rowIndex;
+		this.rowValues[firstRowIndex].markGroupNumber(rowIndex);
+		this.rowValues[secondRowIndex].markGroupNumber(rowIndex);
+		return rowIndex;
 
 	}
 
