@@ -190,7 +190,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 				firstColumn = secondColumn;
 			}
 
-			this.columnValues[0].mergeForOperation1(this.columnValues);
+			this.columnValues[0].mergeForOperation1and2(this.columnValues);
 			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.columnValues);
 
 		}
@@ -222,8 +222,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 				}
 			}
-			
-			this.rowValues[0].mergeForOperation1(this.rowValues);
+
+			this.rowValues[0].mergeForOperation1and2(this.rowValues);
 			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.rowValues);
 		}
 
@@ -237,7 +237,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			DecisionTableElement[] firstColumn = desitionTable[0];
 			for(int i = 1; i < x; i++){
 				DecisionTableElement[] secondColumn = desitionTable[i];
-				if(this.columns[i] != 0 && this.columns[i - 1] != 0 && this.columns[i] == this.columns[i - 1]){
+				if(this.columnValues[i].getGoupingNumber() != 0 && this.columnValues[i - 1].getGoupingNumber() != 0
+						&& this.columnValues[i].getGoupingNumber() == this.columnValues[i - 1].getGoupingNumber()){
 					//this 2 columns are already merged
 					firstColumn = secondColumn;
 					continue;
@@ -274,11 +275,13 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						calculatedColumn[j] = calculatedGroup;
 					}
 					markColumnsToMerge(i - 1, i);
-					setCalculatedColumnToMergedColumns(calculatedColumn, columns[i]);
+					setCalculatedColumnToMergedColumns(calculatedColumn, this.columnValues[i]);
 
 				}
 				firstColumn = secondColumn;
 			}
+			this.columnValues[0].mergeForOperation1and2(this.columnValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.columnValues);
 		}
 
 	}
@@ -289,7 +292,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			int x = desitionTable.length;
 			int y = desitionTable[0].length;
 			for(int j = 1; j < y; j++){
-				if(this.rows[j] != 0 && this.rows[j - 1] != 0 && this.rows[j] == this.rows[j - 1]){
+				if(this.rowValues[j].getGoupingNumber() != 0 && this.rowValues[j - 1].getGoupingNumber() != 0 && this.rowValues[j].getGoupingNumber() == this.rowValues[j - 1].getGoupingNumber()){
 					//this 2 columns are already merged
 					continue;
 				}
@@ -322,9 +325,12 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 					}
 
 					markRowsToMerge(j - 1, j);
-					setCalculatedRowToMergedColumns(calculatedRow, rows[j]);
+					setCalculatedRowToMergedColumns(calculatedRow, rowValues[j]);
 				}
 			}
+			
+			this.columnValues[0].mergeForOperation1and2(this.rowValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.rowValues);
 		}
 
 	}
@@ -492,15 +498,14 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		}
 	}
 
-	private void setCalculatedRowToMergedColumns(int[] calculatedRow, int mergedRowIndex) {
-		for(int i = 0; i < this.rows.length; i++){
-			if(this.rows[i] == mergedRowIndex){
-				for(int j = 0; j < columns.length; j++){
+	private void setCalculatedRowToMergedColumns(int[] calculatedRow, MembershipModel rowValues) {
+		for(int i = 0; i < this.rowValues.length; i++){
+			if(this.rowValues[i].getGoupingNumber() == rowValues.getGoupingNumber()){
+				for(int j = 0; j < columnValues.length; j++){
 					this.desitionTable[j][i].setGroup(calculatedRow[j]);
 				}
 			}
 		}
-
 	}
 
 	private boolean isRowValuesAllZero(int rowIndex) {
@@ -526,10 +531,10 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		return allZero;
 	}
 
-	private void setCalculatedColumnToMergedColumns(int[] calculatedColumn, int mergedColumnIndex) {
-		for(int i = 0; i < this.columns.length; i++){
-			if(this.columns[i] == mergedColumnIndex){
-				for(int j = 0; j < rows.length; j++){
+	private void setCalculatedColumnToMergedColumns(int[] calculatedColumn, MembershipModel columnValue) {
+		for(int i = 0; i < this.columnValues.length; i++){
+			if(this.columnValues[i].getGoupingNumber() == columnValue.getGoupingNumber()){
+				for(int j = 0; j < rowValues.length; j++){
 					this.desitionTable[i][j].setGroup(calculatedColumn[j]);
 				}
 			}

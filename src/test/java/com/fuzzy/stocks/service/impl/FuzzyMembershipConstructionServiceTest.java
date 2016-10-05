@@ -634,35 +634,59 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		
+		
+		MembershipModel[] columnValues = new MembershipModel[13];
+		MembershipModel[] rowValues = new MembershipModel[9];
+
+		columnValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 26.25, 35, 1).build();
+		columnValues[1] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 26.25, 35, 1).build();
+		columnValues[2] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 26.25, 35, 1).build();
+		columnValues[3] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		columnValues[4] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		columnValues[5] = new MembershipModel.MembershipModelBuilder(40, 47.5, 55, 4).build();
+		columnValues[6] = new MembershipModel.MembershipModelBuilder(45, 47.5, 55, 4).build();
+		columnValues[7] = new MembershipModel.MembershipModelBuilder(50, 55, 60, 0).build();
+		columnValues[8] = new MembershipModel.MembershipModelBuilder(55, 60, 65, 0).build();
+		columnValues[9] = new MembershipModel.MembershipModelBuilder(60, 70, 80, 3).build();
+		columnValues[10] = new MembershipModel.MembershipModelBuilder(60, 70, 80, 3).build();
+		columnValues[11] = new MembershipModel.MembershipModelBuilder(60, 70, 80, 3).build();
+		columnValues[12] = new MembershipModel.MembershipModelBuilder(75, 80, Double.MAX_VALUE, 0).build();
+
+		rowValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 10, 15).build();
+		rowValues[1] = new MembershipModel.MembershipModelBuilder(10, 20, 30, 1).build();
+		rowValues[2] = new MembershipModel.MembershipModelBuilder(10, 20, 30, 1).build();
+		rowValues[3] = new MembershipModel.MembershipModelBuilder(10, 20, 30, 1).build();
+		rowValues[4] = new MembershipModel.MembershipModelBuilder(25, 30, 35, 0).build();
+		rowValues[5] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		rowValues[6] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		rowValues[7] = new MembershipModel.MembershipModelBuilder(40, 45, 50).build();
+		rowValues[8] = new MembershipModel.MembershipModelBuilder(45, 50, Double.MAX_VALUE).build();
 
 		this.service.desitionTable = desitionTable;
-		this.service.columns = this.getInitialColumns();
-		this.service.rows = this.getInitialRows();
-		this.service.rows[1] = 1;
-		this.service.rows[2] = 1;
-		this.service.rows[3] = 1;
-		this.service.rows[5] = 2;
-		this.service.rows[6] = 2;
+		this.service.columnValues = columnValues;
+		this.service.rowValues = rowValues;
+		
 
 		this.service.mergeAdjacentRowsForOperation2();
 
-		assertTrue(this.service.rows[0] == 0);
+		assertTrue(this.service.rowValues[0].getGoupingNumber() == 0);
 
-		assertTrue(this.service.rows[1] == this.service.rows[2]);
-		assertTrue(this.service.rows[1] == 1);
-		assertTrue(this.service.rows[2] == 1);
-		assertTrue(this.service.rows[1] == this.service.rows[3]);
-		assertTrue(this.service.rows[3] == 1);
+		assertTrue(this.service.rowValues[1].getGoupingNumber() == this.service.rowValues[2].getGoupingNumber());
+		assertTrue(this.service.rowValues[1].getGoupingNumber() == 1);
+		assertTrue(this.service.rowValues[2].getGoupingNumber() == 1);
+		assertTrue(this.service.rowValues[1].getGoupingNumber() == this.service.rowValues[3].getGoupingNumber());
+		assertTrue(this.service.rowValues[3].getGoupingNumber() == 1);
 
-		assertTrue(this.service.rows[4] == 0);
+		assertTrue(this.service.rowValues[4].getGoupingNumber() == 0);
 
-		assertTrue(this.service.rows[5] == this.service.rows[6]);
-		assertTrue(this.service.rows[5] == 2);
-		assertTrue(this.service.rows[6] == 2);
+		assertTrue(this.service.rowValues[5].getGoupingNumber() == this.service.rowValues[6].getGoupingNumber());
+		assertTrue(this.service.rowValues[5].getGoupingNumber() == 2);
+		assertTrue(this.service.rowValues[6].getGoupingNumber() == 2);
 
-		assertTrue(this.service.rows[7] == this.service.rows[8]);
-		assertTrue(this.service.rows[7] == 3);
-		assertTrue(this.service.rows[8] == 3);
+		assertTrue(this.service.rowValues[7].getGoupingNumber() == this.service.rowValues[8].getGoupingNumber());
+		assertTrue(this.service.rowValues[7].getGoupingNumber() == 3);
+		assertTrue(this.service.rowValues[8].getGoupingNumber() == 3);
 	}
 
 	@Test
@@ -682,44 +706,73 @@ public class FuzzyMembershipConstructionServiceTest {
 		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
 
+		desitionTable[0][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[1][4] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[2][0] = new DecisionTableElement.DecisionTableElementBuilder(1).build();
+		desitionTable[5][8] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[6][4] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[8][0] = new DecisionTableElement.DecisionTableElementBuilder(2).build();
+		desitionTable[12][4] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+		desitionTable[12][7] = new DecisionTableElement.DecisionTableElementBuilder(3).build();
+
+		MembershipModel[] columnValues = new MembershipModel[13];
+		MembershipModel[] rowValues = new MembershipModel[9];
+
+		columnValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 22.5, 30, 1).build();
+		columnValues[1] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 22.5, 30, 1).build();
+		columnValues[2] = new MembershipModel.MembershipModelBuilder(25, 30, 35, 0).build();
+		columnValues[3] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		columnValues[4] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		columnValues[5] = new MembershipModel.MembershipModelBuilder(40, 45, 50, 0).build();
+		columnValues[6] = new MembershipModel.MembershipModelBuilder(45, 50, 55, 0).build();
+		columnValues[7] = new MembershipModel.MembershipModelBuilder(50, 55, 60, 0).build();
+		columnValues[8] = new MembershipModel.MembershipModelBuilder(55, 60, 65, 0).build();
+		columnValues[9] = new MembershipModel.MembershipModelBuilder(60, 70, 80, 3).build();
+		columnValues[10] = new MembershipModel.MembershipModelBuilder(60, 70, 80, 3).build();
+		columnValues[11] = new MembershipModel.MembershipModelBuilder(60, 70, 80, 3).build();
+		columnValues[12] = new MembershipModel.MembershipModelBuilder(75, 80, Double.MAX_VALUE, 0).build();
+
+		rowValues[0] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 10, 15).build();
+		rowValues[1] = new MembershipModel.MembershipModelBuilder(10, 20, 30, 1).build();
+		rowValues[2] = new MembershipModel.MembershipModelBuilder(10, 20, 30, 1).build();
+		rowValues[3] = new MembershipModel.MembershipModelBuilder(10, 20, 30, 1).build();
+		rowValues[4] = new MembershipModel.MembershipModelBuilder(25, 30, 35, 0).build();
+		rowValues[5] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		rowValues[6] = new MembershipModel.MembershipModelBuilder(30, 37.5, 45, 2).build();
+		rowValues[7] = new MembershipModel.MembershipModelBuilder(40, 45, 50).build();
+		rowValues[8] = new MembershipModel.MembershipModelBuilder(45, 50, Double.MAX_VALUE).build();
+
 		this.service.desitionTable = desitionTable;
-		this.service.columns = this.getInitialColumns();
-		this.service.rows = this.getInitialRows();
-		this.service.columns[0] = 1;
-		this.service.columns[1] = 1;
-		this.service.columns[3] = 2;
-		this.service.columns[4] = 2;
-		this.service.columns[9] = 3;
-		this.service.columns[10] = 3;
-		this.service.columns[11] = 3;
+		this.service.columnValues = columnValues;
+		this.service.rowValues = rowValues;
 
 		this.service.mergeAdjacentColumsForOperation2();
 
-		assertTrue(this.service.columns[0] == this.service.columns[1]);
-		assertTrue(this.service.columns[0] == 1);
-		assertTrue(this.service.columns[1] == 1);
+		assertTrue(this.service.columnValues[0].getGoupingNumber() == this.service.columnValues[1].getGoupingNumber());
+		assertTrue(this.service.columnValues[0].getGoupingNumber() == 1);
+		assertTrue(this.service.columnValues[1].getGoupingNumber() == 1);
 
-		assertTrue(this.service.columns[0] == this.service.columns[2]);
-		assertTrue(this.service.columns[2] == 1);
+		assertTrue(this.service.columnValues[0].getGoupingNumber() == this.service.columnValues[2].getGoupingNumber());
+		assertTrue(this.service.columnValues[2].getGoupingNumber() == 1);
 
-		assertTrue(this.service.columns[3] == this.service.columns[4]);
-		assertTrue(this.service.columns[3] == 2);
-		assertTrue(this.service.columns[4] == 2);
+		assertTrue(this.service.columnValues[3].getGoupingNumber() == this.service.columnValues[4].getGoupingNumber());
+		assertTrue(this.service.columnValues[3].getGoupingNumber() == 2);
+		assertTrue(this.service.columnValues[4].getGoupingNumber() == 2);
 
-		assertTrue(this.service.columns[5] == this.service.columns[6]);
-		assertTrue(this.service.columns[5] == 4);
-		assertTrue(this.service.columns[6] == 4);
+		assertTrue(this.service.columnValues[5].getGoupingNumber() == this.service.columnValues[6].getGoupingNumber());
+		assertTrue(this.service.columnValues[5].getGoupingNumber() == 4);
+		assertTrue(this.service.columnValues[6].getGoupingNumber() == 4);
 
-		assertTrue(this.service.columns[7] == 0);
-		assertTrue(this.service.columns[8] == 0);
+		assertTrue(this.service.columnValues[7].getGoupingNumber() == 0);
+		assertTrue(this.service.columnValues[8].getGoupingNumber() == 0);
 
-		assertTrue(this.service.columns[9] == this.service.columns[10]);
-		assertTrue(this.service.columns[9] == 3);
-		assertTrue(this.service.columns[10] == 3);
-		assertTrue(this.service.columns[9] == this.service.columns[11]);
-		assertTrue(this.service.columns[11] == 3);
+		assertTrue(this.service.columnValues[9].getGoupingNumber() == this.service.columnValues[10].getGoupingNumber());
+		assertTrue(this.service.columnValues[9].getGoupingNumber() == 3);
+		assertTrue(this.service.columnValues[10].getGoupingNumber() == 3);
+		assertTrue(this.service.columnValues[9].getGoupingNumber() == this.service.columnValues[11].getGoupingNumber());
+		assertTrue(this.service.columnValues[11].getGoupingNumber() == 3);
 
-		assertTrue(this.service.columns[12] == 0);
+		assertTrue(this.service.columnValues[12].getGoupingNumber() == 0);
 
 	}
 
@@ -782,9 +835,8 @@ public class FuzzyMembershipConstructionServiceTest {
 		rowValues[6] = new MembershipModel.MembershipModelBuilder(35, 40, 45).build();
 		rowValues[7] = new MembershipModel.MembershipModelBuilder(40, 45, 50).build();
 		rowValues[8] = new MembershipModel.MembershipModelBuilder(45, 50, Double.MAX_VALUE).build();
-		
+
 		this.service.desitionTable = desitionTable;
-		this.service.columns = this.getInitialColumns();
 		this.service.columnValues = columnValues;
 		this.service.rowValues = rowValues;
 
@@ -847,7 +899,6 @@ public class FuzzyMembershipConstructionServiceTest {
 		rowValues[8] = new MembershipModel.MembershipModelBuilder(45, 50, Double.MAX_VALUE).build();
 
 		this.service.desitionTable = desitionTable;
-		this.service.columns = this.getInitialColumns();
 		this.service.columnValues = columnValues;
 		this.service.rowValues = rowValues;
 

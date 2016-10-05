@@ -25,6 +25,14 @@ public class MembershipModel {
 		private double a;
 		private double b;
 		private double c;
+		private int groupingNumber;
+
+		public MembershipModelBuilder(double a, double b, double c, int groupingNumber) {
+			this.a = a;
+			this.b = b;
+			this.c = c;
+			this.groupingNumber = groupingNumber;
+		}
 
 		public MembershipModelBuilder(double a, double b, double c) {
 			this.a = a;
@@ -37,6 +45,7 @@ public class MembershipModel {
 			model.a = this.a;
 			model.b = this.b;
 			model.c = this.c;
+			model.goupingNumber = this.groupingNumber;
 			return model;
 		}
 	}
@@ -46,7 +55,7 @@ public class MembershipModel {
 		this.mergeCompleted = false;
 	}
 
-	public void mergeForOperation1(MembershipModel[] values) {
+	private Map<Integer, List<MembershipModel>> getValuesToCalculate(MembershipModel[] values) {
 		Map<Integer, List<MembershipModel>> valuesToCalculate = new HashMap<Integer, List<MembershipModel>>();
 		for(MembershipModel model : values){
 			if(!model.mergeCompleted){
@@ -59,6 +68,22 @@ public class MembershipModel {
 				}
 			}
 		}
+		return valuesToCalculate;
+	}
+
+	private void setCalculatedValuesToModelValues(MembershipModel[] values, Map<Integer, MembershipModel> calculatedValues) {
+		for(MembershipModel model : values){
+			if(calculatedValues.containsKey(model.goupingNumber)){
+				model.a = calculatedValues.get(model.goupingNumber).a;
+				model.b = calculatedValues.get(model.goupingNumber).b;
+				model.c = calculatedValues.get(model.goupingNumber).c;
+				model.mergeCompleted = true;
+			}
+		}
+	}
+
+	public void mergeForOperation1and2(MembershipModel[] values) {
+		Map<Integer, List<MembershipModel>> valuesToCalculate = getValuesToCalculate(values);
 
 		Map<Integer, MembershipModel> calculatedValues = new HashMap<Integer, MembershipModel>();
 		Iterator<Integer> entries = valuesToCalculate.keySet().iterator();
@@ -83,14 +108,8 @@ public class MembershipModel {
 			calculatedModel.goupingNumber = key;
 			calculatedValues.put(key, calculatedModel);
 		}
-		for(MembershipModel model : values){
-			if(calculatedValues.containsKey(model.goupingNumber)){
-				model.a = calculatedValues.get(model.goupingNumber).a;
-				model.b = calculatedValues.get(model.goupingNumber).b ;
-				model.c = calculatedValues.get(model.goupingNumber).c;
-				model.mergeCompleted = true;
-			}
-		}
+
+		setCalculatedValuesToModelValues(values, calculatedValues);
 
 	}
 
