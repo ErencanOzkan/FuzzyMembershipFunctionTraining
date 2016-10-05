@@ -122,4 +122,35 @@ public class MembershipModel {
 		return "MembershipModel [a=" + a + ", b=" + b + ", c=" + c + ", goupingNumber=" + goupingNumber + ", mergeCompleted=" + mergeCompleted + "]";
 	}
 
+	public void mergeForOperation3and4(MembershipModel[] values) {
+		Map<Integer, List<MembershipModel>> valuesToCalculate = getValuesToCalculate(values);
+
+		Map<Integer, MembershipModel> calculatedValues = new HashMap<Integer, MembershipModel>();
+		Iterator<Integer> entries = valuesToCalculate.keySet().iterator();
+		while(entries.hasNext()){
+			Integer key = (Integer) entries.next();
+			List<MembershipModel> groupList = (List<MembershipModel>) valuesToCalculate.get(key);
+			double a = Double.MAX_VALUE;
+			double b = 0;
+			double c = Double.MIN_VALUE;
+			for(MembershipModel model : groupList){
+				if(model.a < a){
+					a = model.a;
+				}
+				b += model.b;
+				if(model.c > c){
+					c = model.c;
+				}
+
+			}
+			b = b / groupList.size();
+			MembershipModel calculatedModel = new MembershipModel.MembershipModelBuilder(a, b, c).build();
+			calculatedModel.goupingNumber = key;
+			calculatedValues.put(key, calculatedModel);
+		}
+
+		setCalculatedValuesToModelValues(values, calculatedValues);
+		
+	}
+
 }

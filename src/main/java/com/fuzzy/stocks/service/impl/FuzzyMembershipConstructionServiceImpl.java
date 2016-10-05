@@ -328,8 +328,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 					setCalculatedRowToMergedColumns(calculatedRow, rowValues[j]);
 				}
 			}
-			
-			this.columnValues[0].mergeForOperation1and2(this.rowValues);
+
+			this.rowValues[0].mergeForOperation1and2(this.rowValues);
 			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.rowValues);
 		}
 
@@ -383,15 +383,17 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 					}
 				}
 			}
+			this.rowValues[0].mergeForOperation3and4(this.rowValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.rowValues);
 		}
 
 	}
 
 	private void setAllRowsWithSameCalculatedRow(int[] calculatedRow, int currentIndex) {
-		if(currentIndex > 0 && currentIndex < this.rows.length){
-			for(int i = 0; i < this.rows.length; i++){
-				if(this.rows[currentIndex] == this.rows[i]){
-					for(int j = 0; j < this.columns.length; j++){
+		if(currentIndex > 0 && currentIndex < this.rowValues.length){
+			for(int i = 0; i < this.rowValues.length; i++){
+				if(this.rowValues[currentIndex].getGoupingNumber() == this.rowValues[i].getGoupingNumber()){
+					for(int j = 0; j < this.columnValues.length; j++){
 						this.desitionTable[j][i].setGroup(calculatedRow[j]);
 					}
 				}
@@ -401,35 +403,35 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	private void mergeRowsForInterval(int previousRowIndex, int currentRowIndex, int nextRowIndex) {
 		int rowIndex = 0;
-		if(rows[nextRowIndex] != 0){
-			rowIndex = rows[nextRowIndex];
-		} else if(rows[previousRowIndex] != 0){
-			rowIndex = rows[previousRowIndex];
-		} else if(rows[currentRowIndex] != 0){
-			rowIndex = rows[currentRowIndex];
+		if(rowValues[nextRowIndex].getGoupingNumber() != 0){
+			rowIndex = rowValues[nextRowIndex].getGoupingNumber();
+		} else if(rowValues[previousRowIndex].getGoupingNumber() != 0){
+			rowIndex = rowValues[previousRowIndex].getGoupingNumber();
+		} else if(rowValues[currentRowIndex].getGoupingNumber() != 0){
+			rowIndex = rowValues[currentRowIndex].getGoupingNumber();
 		} else{
 			rowIndex = this.mergedRowIndex;
 			this.mergedRowIndex++;
 		}
-		int previousMergedValue = rows[previousRowIndex];
-		int nextMergedValue = rows[nextRowIndex];
-		int currentValue = rows[currentRowIndex];
+		int previousMergedValue = rowValues[previousRowIndex].getGoupingNumber();
+		int nextMergedValue = rowValues[nextRowIndex].getGoupingNumber();
+		int currentValue = rowValues[currentRowIndex].getGoupingNumber();
 		if(previousMergedValue == 0){
-			this.rows[previousRowIndex] = rowIndex;
+			this.rowValues[previousRowIndex].markGroupNumber(rowIndex);
 		}
 		if(currentValue == 0){
-			this.rows[currentRowIndex] = rowIndex;
+			this.rowValues[currentRowIndex].markGroupNumber(rowIndex);
 		}
 		if(nextMergedValue == 0){
-			this.rows[nextRowIndex] = rowIndex;
+			this.rowValues[nextRowIndex].markGroupNumber( rowIndex);
 		}
-		for(int i = 0; i < this.rows.length; i++){
-			if(previousMergedValue != 0 && this.rows[i] == previousMergedValue){
-				this.rows[i] = rowIndex;
-			} else if(nextMergedValue != 0 && this.rows[i] == nextMergedValue){
-				this.rows[i] = rowIndex;
-			} else if(currentValue != 0 && this.rows[i] == currentValue){
-				this.rows[i] = rowIndex;
+		for(int i = 0; i < this.rowValues.length; i++){
+			if(previousMergedValue != 0 && this.rowValues[i].getGoupingNumber() == previousMergedValue){
+				this.rowValues[i].markGroupNumber(rowIndex);
+			} else if(nextMergedValue != 0 && this.rowValues[i].getGoupingNumber() == nextMergedValue){
+				this.rowValues[i].markGroupNumber(rowIndex);
+			} else if(currentValue != 0 && this.rowValues[i].getGoupingNumber() == currentValue){
+				this.rowValues[i].markGroupNumber(rowIndex);
 			}
 
 		}
@@ -437,9 +439,9 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	private int calculateNextRowIndexBasedOnMergeOperations(int currentRowIndex) {
 		int nextRowIndex = 0;
-		if(currentRowIndex > 0 && currentRowIndex < this.rows.length){
-			for(int i = currentRowIndex; i < this.rows.length; i++){
-				if(this.rows[currentRowIndex] != this.rows[i]){
+		if(currentRowIndex > 0 && currentRowIndex < this.rowValues.length){
+			for(int i = currentRowIndex; i < this.rowValues.length; i++){
+				if(this.rowValues[currentRowIndex].getGoupingNumber() != this.rowValues[i].getGoupingNumber()){
 					nextRowIndex = i;
 					break;
 				}
@@ -450,9 +452,9 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	private int calculatePreviousRowIndexBasedOnMergeOperations(int currentRowIndex) {
 		int previousRowIndex = 0;
-		if(currentRowIndex > 0 && currentRowIndex < this.rows.length){
+		if(currentRowIndex > 0 && currentRowIndex < this.rowValues.length){
 			for(int i = currentRowIndex; i > 0; i--){
-				if(this.rows[currentRowIndex] != this.rows[i]){
+				if(this.rowValues[currentRowIndex].getGoupingNumber() != this.rowValues[i].getGoupingNumber()){
 					previousRowIndex = i;
 					break;
 				}
@@ -490,11 +492,12 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 								desitionTable[i][j].setGroup(desitionTable[previousColumnIndex][j].getGroup());
 							}
 						}
-
 					}
 				}
 			}
-
+						
+			this.columnValues[0].mergeForOperation3and4(this.columnValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.columnValues);
 		}
 	}
 
@@ -546,19 +549,19 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		int previousCoulumnIndex = currentColumnIndex - 1;
 		int nextCoulumnIndex = currentColumnIndex + 1;
 		int columnIndex = 0;
-		if(previousCoulumnIndex > 0 && nextCoulumnIndex < this.columns.length){
-			if(columns[nextCoulumnIndex] != 0){
-				columnIndex = columns[nextCoulumnIndex];
-			} else if(columns[previousCoulumnIndex] != 0){
-				columnIndex = columns[previousCoulumnIndex];
+		if(previousCoulumnIndex > 0 && nextCoulumnIndex < this.columnValues.length){
+			if(columnValues[nextCoulumnIndex].getGoupingNumber() != 0){
+				columnIndex = columnValues[nextCoulumnIndex].getGoupingNumber();
+			} else if(columnValues[previousCoulumnIndex].getGoupingNumber() != 0){
+				columnIndex = columnValues[previousCoulumnIndex].getGoupingNumber();
 			} else{
 				columnIndex = this.mergedColumnIndex;
 				this.mergedColumnIndex++;
 			}
 		}
-		this.columns[previousCoulumnIndex] = columnIndex;
-		this.columns[currentColumnIndex] = columnIndex;
-		this.columns[nextCoulumnIndex] = columnIndex;
+		this.columnValues[previousCoulumnIndex].markGroupNumber(columnIndex);
+		this.columnValues[currentColumnIndex].markGroupNumber(columnIndex);
+		this.columnValues[nextCoulumnIndex].markGroupNumber(columnIndex);
 		return columnIndex;
 
 	}
@@ -644,15 +647,17 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 					}
 				}
 			}
+			this.columnValues[0].mergeForOperation3and4(this.columnValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.columnValues);
 
 		}
 
 	}
 
 	private void setAllColumnsWithSameCalculatedRow(int[] calculatedColumn, int mergedValue) {
-		for(int i = 0; i < this.columns.length; i++){
-			if(this.columns[i] == mergedValue){
-				for(int j = 0; j < this.rows.length; j++){
+		for(int i = 0; i < this.columnValues.length; i++){
+			if(this.columnValues[i].getGoupingNumber() == mergedValue){
+				for(int j = 0; j < this.rowValues.length; j++){
 					this.desitionTable[i][j].setGroup(calculatedColumn[j]);
 				}
 			}
@@ -707,6 +712,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 					}
 				}
 			}
+			this.rowValues[0].mergeForOperation3and4(this.rowValues);
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.rowValues);
 		}
 
 	}
