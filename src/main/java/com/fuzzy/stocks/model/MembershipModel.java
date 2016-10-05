@@ -150,7 +150,41 @@ public class MembershipModel {
 		}
 
 		setCalculatedValuesToModelValues(values, calculatedValues);
-		
+
+	}
+
+	public void mergeForOperation5(MembershipModel[] values, int previousRegionIndex, int currentRegionIndex, int nextRegionIndex) {
+		Map<Integer, List<MembershipModel>> valuesToCalculate = getValuesToCalculate(values);
+
+		double ai = values[previousRegionIndex].a;
+		double bi = values[previousRegionIndex].b;
+		double ci = values[previousRegionIndex].c;
+
+		double aj = values[currentRegionIndex].a;
+		double bj = values[currentRegionIndex].b;
+		double cj = values[currentRegionIndex].c;
+
+		double ak = values[nextRegionIndex].a;
+		double bk = values[nextRegionIndex].b;
+		double ck = values[nextRegionIndex].c;
+
+		int previousGroupNumber = values[previousRegionIndex].getGoupingNumber();
+		int nextGroupNumber = values[nextRegionIndex].getGoupingNumber();
+
+		for(MembershipModel model : values){
+			if(model.goupingNumber == previousGroupNumber){
+				model.a = ai;
+				model.b = bi;
+				model.c = cj;
+				model.mergeCompleted = true;
+			}
+			if(model.goupingNumber == nextGroupNumber){
+				model.a = aj;
+				model.b = bk;
+				model.c = ck;
+				model.mergeCompleted = true;
+			}
+		}
 	}
 
 }

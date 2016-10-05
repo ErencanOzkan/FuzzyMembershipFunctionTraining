@@ -21,9 +21,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	DecisionTableElement[][] desitionTable;
 
-	int[] columns;
-	int[] rows;
-
 	MembershipModel[] columnValues;
 	MembershipModel[] rowValues;
 
@@ -110,8 +107,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		int decisionTableSizeY = (int) ((maximumProperty - minimumProperty) / this.smallesetPredefinedUnitForProperty) + 1;
 
 		desitionTable = new DecisionTableElement[decisionTableSizeX][decisionTableSizeY];
-		columns = new int[decisionTableSizeX];
-		rows = new int[decisionTableSizeY];
 
 		columnValues = new MembershipModel[decisionTableSizeX];
 		rowValues = new MembershipModel[decisionTableSizeY];
@@ -718,94 +713,6 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
-	public void mergeColumnsForOperation5() {
-		if(desitionTable != null){
-			int x = desitionTable.length;
-			int y = desitionTable[0].length;
-			for(int i = 1; i < x - 1; i++){
-				if(isColumnValuesAllZero(desitionTable[i])){
-
-					int previousRegionIndex = i - 1;
-					int nextRegionIndex = calculateNextColumnRegionIndex(i);
-					int numberOfEmptyColumnsInTheRegion = nextRegionIndex - previousRegionIndex - 1;
-					boolean growRegionLeftOrRigth = false; //left -> true, rigth -> true
-					while(numberOfEmptyColumnsInTheRegion > 0){
-						if(growRegionLeftOrRigth){
-							LOGGER.debug("Operation 5 #  Column -> " + previousRegionIndex + " and Column -> " + (previousRegionIndex + 1) + " are merged");
-							growColumnRegionByIndexes(previousRegionIndex, previousRegionIndex + 1);
-							growRegionLeftOrRigth = false;
-							previousRegionIndex++;
-						} else{
-							LOGGER.debug("Operation 5 #  Column -> " + (nextRegionIndex - 1) + " and Column -> " + nextRegionIndex + " are merged");
-							growColumnRegionByIndexes(nextRegionIndex, nextRegionIndex - 1);
-							growRegionLeftOrRigth = true;
-							nextRegionIndex--;
-						}
-						numberOfEmptyColumnsInTheRegion--;
-					}
-				}
-			}
-
-		}
-	}
-
-	private void growColumnRegionByIndexes(int growedColumnIndex, int emptyRowIndex) {
-		if(growedColumnIndex >= 0 && emptyRowIndex >= 0 && growedColumnIndex < this.columns.length && emptyRowIndex < this.columns.length){
-			int mergedColumnRegionValue = 0;
-			if(this.columns[growedColumnIndex] == 0){
-				mergedColumnRegionValue = this.mergedColumnIndex;
-				this.columns[growedColumnIndex] = mergedColumnRegionValue;
-				this.mergedColumnIndex++;
-			} else{
-				mergedColumnRegionValue = this.columns[growedColumnIndex];
-			}
-			this.columns[emptyRowIndex] = mergedColumnRegionValue;
-			for(int i = 0; i < this.rows.length; i++){
-				this.desitionTable[emptyRowIndex][i].setGroup(this.desitionTable[growedColumnIndex][i].getGroup());
-			}
-		}
-
-	}
-
-	private void growRowRegionByIndexes(int growedRowIndex, int emptyRowIndex) {
-		if(growedRowIndex >= 0 && emptyRowIndex >= 0 && growedRowIndex < this.rows.length && emptyRowIndex < this.rows.length){
-			int mergedRowRegionValue = 0;
-			if(this.rows[growedRowIndex] == 0){
-				mergedRowRegionValue = this.mergedRowIndex;
-				this.rows[growedRowIndex] = mergedRowRegionValue;
-				this.mergedRowIndex++;
-			} else{
-				mergedRowRegionValue = this.rows[growedRowIndex];
-			}
-			this.rows[emptyRowIndex] = mergedRowRegionValue;
-			for(int i = 0; i < this.columns.length; i++){
-				this.desitionTable[i][emptyRowIndex].setGroup(this.desitionTable[i][growedRowIndex].getGroup());
-			}
-		}
-	}
-
-	private int calculateNextColumnRegionIndex(int emptyColumnIndex) {
-		int regionNumber = this.columns[emptyColumnIndex];
-		if(this.columns[emptyColumnIndex] == regionNumber){
-			emptyColumnIndex++;
-			while(emptyColumnIndex < this.columns.length && this.columns[emptyColumnIndex] == regionNumber){
-				emptyColumnIndex++;
-			}
-		}
-		return emptyColumnIndex;
-	}
-
-	private int calculateNextRowRegionIndex(int emptyRowIndex) {
-		int regionNumber = this.rows[emptyRowIndex];
-		if(this.rows[emptyRowIndex] == regionNumber){
-			emptyRowIndex++;
-			while(emptyRowIndex < this.rows.length && this.rows[emptyRowIndex] == regionNumber){
-				emptyRowIndex++;
-			}
-		}
-		return emptyRowIndex;
-	}
-
 	public void mergeRowsForOperation5() {
 
 		if(desitionTable != null){
@@ -816,6 +723,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 					int previousRegionIndex = i - 1;
 					int nextRegionIndex = calculateNextRowRegionIndex(i);
+					int nextRegionIndexTemp = nextRegionIndex;
 					int numberOfEmptyColumnsInTheRegion = nextRegionIndex - previousRegionIndex - 1;
 					boolean growRegionLeftOrRigth = false; //left -> true, rigth -> true
 					while(numberOfEmptyColumnsInTheRegion > 0){
@@ -832,10 +740,103 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 						}
 						numberOfEmptyColumnsInTheRegion--;
 					}
+					this.columnValues[0].mergeForOperation5(this.columnValues,i-1,i,nextRegionIndexTemp);
 				}
 			}
-
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.rowValues);
 		}
 
+	}
+	
+	public void mergeColumnsForOperation5() {
+		if(desitionTable != null){
+			int x = desitionTable.length;
+			int y = desitionTable[0].length;
+			for(int i = 1; i < x - 1; i++){
+				if(isColumnValuesAllZero(desitionTable[i])){
+
+					int previousRegionIndex = i - 1;
+					int nextRegionIndex = calculateNextColumnRegionIndex(i);
+					int nextRegionIndexTemp = nextRegionIndex;
+					int numberOfEmptyColumnsInTheRegion = nextRegionIndex - previousRegionIndex - 1;
+					boolean growRegionLeftOrRigth = false; //left -> true, rigth -> true
+					while(numberOfEmptyColumnsInTheRegion > 0){
+						if(growRegionLeftOrRigth){
+							LOGGER.debug("Operation 5 #  Column -> " + previousRegionIndex + " and Column -> " + (previousRegionIndex + 1) + " are merged");
+							growColumnRegionByIndexes(previousRegionIndex, previousRegionIndex + 1);
+							growRegionLeftOrRigth = false;
+							previousRegionIndex++;
+						} else{
+							LOGGER.debug("Operation 5 #  Column -> " + (nextRegionIndex - 1) + " and Column -> " + nextRegionIndex + " are merged");
+							growColumnRegionByIndexes(nextRegionIndex, nextRegionIndex - 1);
+							growRegionLeftOrRigth = true;
+							nextRegionIndex--;
+						}
+						numberOfEmptyColumnsInTheRegion--;
+					}
+					this.columnValues[0].mergeForOperation5(this.columnValues,i-1,i,nextRegionIndexTemp);
+				}				
+			}
+			
+			FuzzyMembershipPrintServiceImpl.printMembershipModels(this.columnValues);
+
+		}
+	}
+
+	private void growColumnRegionByIndexes(int growedColumnIndex, int emptyRowIndex) {
+		if(growedColumnIndex >= 0 && emptyRowIndex >= 0 && growedColumnIndex < this.columnValues.length && emptyRowIndex < this.columnValues.length){
+			int mergedColumnRegionValue = 0;
+			if(this.columnValues[growedColumnIndex].getGoupingNumber() == 0){
+				mergedColumnRegionValue = this.mergedColumnIndex;
+				this.columnValues[growedColumnIndex].markGroupNumber(mergedColumnRegionValue);
+				this.mergedColumnIndex++;
+			} else{
+				mergedColumnRegionValue = this.columnValues[growedColumnIndex].getGoupingNumber();
+			}
+			this.columnValues[emptyRowIndex].markGroupNumber(mergedColumnRegionValue);
+			for(int i = 0; i < this.rowValues.length; i++){
+				this.desitionTable[emptyRowIndex][i].setGroup(this.desitionTable[growedColumnIndex][i].getGroup());
+			}
+		}
+
+	}
+
+	private void growRowRegionByIndexes(int growedRowIndex, int emptyRowIndex) {
+		if(growedRowIndex >= 0 && emptyRowIndex >= 0 && growedRowIndex < this.rowValues.length && emptyRowIndex < this.rowValues.length){
+			int mergedRowRegionValue = 0;
+			if(this.rowValues[growedRowIndex].getGoupingNumber() == 0){
+				mergedRowRegionValue = this.mergedRowIndex;
+				this.rowValues[growedRowIndex].markGroupNumber(mergedRowRegionValue);
+				this.mergedRowIndex++;
+			} else{
+				mergedRowRegionValue = this.rowValues[growedRowIndex].getGoupingNumber();
+			}
+			this.rowValues[emptyRowIndex].markGroupNumber(mergedRowRegionValue);
+			for(int i = 0; i < this.columnValues.length; i++){
+				this.desitionTable[i][emptyRowIndex].setGroup(this.desitionTable[i][growedRowIndex].getGroup());
+			}
+		}
+	}
+
+	private int calculateNextColumnRegionIndex(int emptyColumnIndex) {
+		int regionNumber = this.columnValues[emptyColumnIndex].getGoupingNumber();
+		if(this.columnValues[emptyColumnIndex].getGoupingNumber() == regionNumber){
+			emptyColumnIndex++;
+			while(emptyColumnIndex < this.columnValues.length && this.columnValues[emptyColumnIndex].getGoupingNumber() == regionNumber){
+				emptyColumnIndex++;
+			}
+		}
+		return emptyColumnIndex;
+	}
+
+	private int calculateNextRowRegionIndex(int emptyRowIndex) {
+		int regionNumber = this.rowValues[emptyRowIndex].getGoupingNumber();
+		if(this.rowValues[emptyRowIndex].getGoupingNumber() == regionNumber){
+			emptyRowIndex++;
+			while(emptyRowIndex < this.rowValues.length && this.rowValues[emptyRowIndex].getGoupingNumber() == regionNumber){
+				emptyRowIndex++;
+			}
+		}
+		return emptyRowIndex;
 	}
 }
