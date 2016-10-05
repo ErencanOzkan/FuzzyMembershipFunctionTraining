@@ -251,6 +251,7 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(this.service.rowValues[6].getGoupingNumber() == 3);
 		assertTrue(this.service.rowValues[7].getGoupingNumber() == 3);
 		assertTrue(this.service.rowValues[8].getGoupingNumber() == 3);
+
 	}
 
 	@Test
@@ -1082,4 +1083,5 @@ public class FuzzyMembershipConstructionServiceTest {
 		assertTrue(service.desitionTable[12][6].getGroup() == 3);
 
 	}
+
 }

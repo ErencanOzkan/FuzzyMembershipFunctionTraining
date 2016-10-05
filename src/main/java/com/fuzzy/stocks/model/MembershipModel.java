@@ -187,4 +187,15 @@ public class MembershipModel {
 		}
 	}
 
+	public List<MembershipModel> getMembershipRules(MembershipModel[] values) {
+		Map<Integer, MembershipModel> rules = new HashMap<Integer,MembershipModel>();
+		for(MembershipModel model : values)
+		{
+			rules.put(model.getGoupingNumber(), model);
+		}		
+		List<MembershipModel> results = new ArrayList<MembershipModel>();
+		results.addAll(rules.values());
+		return results;
+	}
+
 }
