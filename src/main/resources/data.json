@@ -1,0 +1,44 @@
+{
+"FuzzyData" : [
+             {
+             	"age" : 20,
+             	"property" : 30,
+             	"insurance_fee" : 2000
+             },
+           {
+             	"age" : 25,
+                "property" : 30,
+             	"insurance_fee" : 2100
+             },
+             {
+             	"age" : 30,
+             	"property" : 10,
+             	"insurance_fee" : 2200
+             },
+             {
+             	"age" : 45,
+             	"property" : 50,
+             	"insurance_fee" : 2500
+             },
+             {
+             	"age" : 50,
+             	"property" : 30,
+             	"insurance_fee" : 2600
+             },
+             {
+             	"age" : 60,
+             	"property" : 10,
+             	"insurance_fee" :2700 
+             },
+             {
+             	"age" : 80,
+             	"property" : 30,
+             	"insurance_fee" :3200 
+             },
+             {
+             	"age" : 80,
+             	"property" : 40,
+             	"insurance_fee" : 3300
+             }
+      ]
+      }

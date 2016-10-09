@@ -5,10 +5,14 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import com.fuzzy.stocks.model.MembershipModel;
+import com.fuzzy.stocks.service.impl.FuzzyInferenceServiceImpl;
 
 public class MembershipModelTest {
+
+	Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MembershipModelTest.class);
 
 	@Test
 	public void getMembershipRulesTest_ColumnValues_MembershipRules() {
@@ -32,6 +36,8 @@ public class MembershipModelTest {
 		assertTrue(rules != null);
 		assertTrue(rules.size() == 3);
 
+		logRules(rules);
+
 	}
 
 	@Test
@@ -49,10 +55,20 @@ public class MembershipModelTest {
 		rowValues[8] = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 30, Double.MAX_VALUE, 3).build();
 
 		List<MembershipModel> rules = rowValues[0].getMembershipRules(rowValues);
-		
+
 		assertTrue(rules != null);
 		assertTrue(rules.size() == 1);
 
+		logRules(rules);
+
+	}
+
+	private void logRules(List<MembershipModel> rules) {
+		this.LOGGER.debug("Rules -> ");
+
+		for(MembershipModel rule : rules){
+			this.LOGGER.debug(rule.toString());
+		}
 	}
 
 }
