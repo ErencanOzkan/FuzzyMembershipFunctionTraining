@@ -15,7 +15,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 	FuzzyMembershipCalculationStatusEnum calculationStatus = FuzzyMembershipCalculationStatusEnum.NONE;;
 
 	final double controlParameter = 4;
-	final double cutOfSimilarity = 0.81d;
+	final double cutOfSimilarity = 0.925d;
 	int numberOfGroups = 0;
 
 	double standartDerivation;
@@ -40,7 +40,6 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 	public static class FuzzyMembershipServiceBuilder {
 
 		private List<FuzzyData> data;
-		double standartDerivation;
 
 		public FuzzyMembershipServiceBuilder(List<FuzzyData> data) {
 			this.data = data;
@@ -185,6 +184,8 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 			this.rigthCornerPoints.add(rigthCornerPointC);
 
 			calculationStatus = FuzzyMembershipCalculationStatusEnum.RIGTH_CORNER_C_IS_CALCULATED;
+			
+			FuzzyMembershipPrintServiceImpl.printRigthCornerPoints(this.rigthCornerPoints);
 
 			return true;
 		}
@@ -244,6 +245,8 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 			this.leftCornerPoints.add(leftCornerPointA);
 
 			calculationStatus = FuzzyMembershipCalculationStatusEnum.LEFT_CORNER_A_IS_CALCULATED;
+			
+			FuzzyMembershipPrintServiceImpl.printLeftCornerPoints(this.leftCornerPoints);
 
 			return true;
 		}
@@ -305,7 +308,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 			this.centralPoints.add(centralPoint);
 
 			calculationStatus = FuzzyMembershipCalculationStatusEnum.CENTER_POINT_B_IS_CALCULATED;
-
+			FuzzyMembershipPrintServiceImpl.printCenterCornerPoints(this.centralPoints);
 			return true;
 		}
 		return false;
@@ -368,6 +371,7 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 						double result = (diffB / diffA);
 						d.setMembershipValue(result);
 					}
+					d.setStatus(FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED);
 				}
 			}
 			calculationStatus = FuzzyMembershipCalculationStatusEnum.MEMBERSHIP_VALUES_ARE_CALCULATED;
@@ -389,6 +393,20 @@ public class FuzzyMembershipServiceImpl implements FuzzyMembershipService {
 		}
 
 		return sameGroupData;
+	}
+
+	@Override
+	public List<FuzzyData> getPreparedData() {
+		List<FuzzyData> peparedData = new ArrayList<FuzzyData>();
+		peparedData.addAll(data);
+		return peparedData;
+	}
+
+	@Override
+	public List<Double> getCentralPoints() {
+		List<Double> centralPointsNew = new ArrayList<Double>();
+		centralPointsNew.addAll(this.centralPoints);
+		return centralPointsNew;
 	}
 
 }

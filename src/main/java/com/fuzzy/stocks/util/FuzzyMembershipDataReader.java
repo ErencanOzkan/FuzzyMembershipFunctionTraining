@@ -22,9 +22,7 @@ public class FuzzyMembershipDataReader {
 
 	private final static String fileName = "data.json";
 
-	public static  List<FuzzyData> readFuzzyData() {
-		File fuzzyDataFile = getCustomerFileReader.apply(fileName);
-
+	public static List<FuzzyData> readFuzzyData(File fuzzyDataFile) {
 		List<FuzzyData> fuzzyData = new ArrayList<FuzzyData>();;
 
 		JSONParser parser = new JSONParser();
@@ -33,7 +31,17 @@ public class FuzzyMembershipDataReader {
 			for(Object key : jsonObject.keySet()){
 
 				JSONArray jsonArray = (JSONArray) jsonObject.get(key);
-				fuzzyData.addAll((List<FuzzyData>) jsonArray.stream().collect(Collectors.toList()));
+				List rawData = (List) jsonArray.stream().collect(Collectors.toList());
+				for(Object o : rawData)
+				{
+					JSONObject json = (JSONObject) o;
+					double age = (double) json.get("age");
+					double property = (double) json.get("property");
+					double insuranceFee = (double) json.get("insurance_fee");
+					FuzzyData data = new FuzzyData.FuzzyDataBuilder(age, property, insuranceFee).build();
+					fuzzyData.add(data);
+				}
+			
 			}
 
 		} catch (IOException e){
@@ -42,6 +50,12 @@ public class FuzzyMembershipDataReader {
 			FuzzyMembershipDataReader.LOGGER.error(e.getMessage(), e);
 		}
 		return fuzzyData;
+	}
+
+	public static List<FuzzyData> readFuzzyData() {
+		File fuzzyDataFile = getCustomerFileReader.apply(fileName);
+		return readFuzzyData(fuzzyDataFile);
+
 	}
 
 	private static Function<String, File> getCustomerFileReader = filename -> {

@@ -1,5 +1,7 @@
 package com.fuzzy.stocks.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -96,8 +98,10 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		return smallestPredefinedUnit;
 	}
 
+	@Override
 	public void constructInitialDecisionTable() {
-		this.smallesetPredefinedUnitForProperty = 5;
+		this.smallesetPredefinedUnitForProperty = findAndSetSmallestPredefinedUnitForProperty();
+		this.smallesetPredefinedUnitForAge = findAndSetSmallestPredefinedUnitForAge();
 		double minimumAge = FuzzyDataUtil.findMinimumAge(this.data);
 		double maximumAge = FuzzyDataUtil.findMaximumAge(this.data);
 		int decisionTableSizeX = (int) ((maximumAge - minimumAge) / this.smallesetPredefinedUnitForAge) + 1;
@@ -157,6 +161,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		}
 	}
 
+	@Override
 	public void mergeAdjacentColumnsIfTheyAreSame() {
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -191,7 +196,8 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		}
 
 	}
-
+	
+	@Override
 	public void mergeAdjacentRowsIfTheyAreSame() {
 
 		if(desitionTable != null){
@@ -224,6 +230,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
+	@Override
 	public void mergeAdjacentColumsForOperation2() {
 
 		if(desitionTable != null){
@@ -281,6 +288,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
+	@Override
 	public void mergeAdjacentRowsForOperation2() {
 
 		if(desitionTable != null){
@@ -330,6 +338,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
+	@Override
 	public void mergeRowsForOperation3() {
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -458,6 +467,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 		return previousRowIndex;
 	}
 
+	@Override
 	public void mergeColumnsForOperation3() {
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -594,6 +604,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
+	@Override
 	public void mergeColumnsForOperation4() {
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -660,6 +671,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
+	@Override
 	public void mergeRowsForOperation4() {
 
 		if(desitionTable != null){
@@ -713,6 +725,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 
+	@Override
 	public void mergeRowsForOperation5() {
 
 		if(desitionTable != null){
@@ -748,6 +761,7 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 
 	}
 	
+	@Override
 	public void mergeColumnsForOperation5() {
 		if(desitionTable != null){
 			int x = desitionTable.length;
@@ -838,5 +852,16 @@ public class FuzzyMembershipConstructionServiceImpl implements FuzzyMembershipCo
 			}
 		}
 		return emptyRowIndex;
+	}
+
+	@Override
+	public List<MembershipModel> getAgeMembershipRules() {
+		List<MembershipModel> rules = new ArrayList<MembershipModel>();
+		return FuzzyMembershipPrintServiceImpl.getUniqueGroups(this.columnValues);
+	}
+
+	@Override
+	public List<MembershipModel> getPropertyMembershipRules() {
+		return FuzzyMembershipPrintServiceImpl.getUniqueGroups(this.rowValues);
 	}
 }

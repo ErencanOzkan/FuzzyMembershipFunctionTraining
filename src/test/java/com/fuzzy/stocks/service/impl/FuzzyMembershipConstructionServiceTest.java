@@ -1057,30 +1057,19 @@ public class FuzzyMembershipConstructionServiceTest {
 
 		this.service.constructInitialDecisionTable();
 		assertTrue(service.desitionTable != null);
-		assertTrue(service.desitionTable[0].length == 9);
+		assertTrue(service.desitionTable[0].length == 5);
 		assertTrue(service.desitionTable.length == 13);
 
 		assertTrue(service.desitionTable[0][4] != null);
 		assertTrue(service.desitionTable[1][4] != null);
 		assertTrue(service.desitionTable[2][0] != null);
 
-		assertTrue(service.desitionTable[0][4].getGroup() == 1);
-		assertTrue(service.desitionTable[1][4].getGroup() == 1);
 		assertTrue(service.desitionTable[2][0].getGroup() == 1);
 
-		assertTrue(service.desitionTable[5][8] != null);
-		assertTrue(service.desitionTable[6][4] != null);
 		assertTrue(service.desitionTable[8][0] != null);
 
-		assertTrue(service.desitionTable[5][8].getGroup() == 2);
-		assertTrue(service.desitionTable[6][4].getGroup() == 2);
 		assertTrue(service.desitionTable[8][0].getGroup() == 2);
 
-		assertTrue(service.desitionTable[12][4] != null);
-		assertTrue(service.desitionTable[12][6] != null);
-
-		assertTrue(service.desitionTable[12][4].getGroup() == 3);
-		assertTrue(service.desitionTable[12][6].getGroup() == 3);
 
 	}
 

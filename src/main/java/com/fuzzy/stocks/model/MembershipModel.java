@@ -15,6 +15,7 @@ public class MembershipModel {
 
 	private int goupingNumber;
 	private boolean mergeCompleted = true;
+	double membershipValue;
 
 	private MembershipModel() {
 
@@ -26,6 +27,15 @@ public class MembershipModel {
 		private double b;
 		private double c;
 		private int groupingNumber;
+		private double membershipValue;
+
+		public MembershipModelBuilder(double a, double b, double c, int groupingNumber, double membershipValue) {
+			this.a = a;
+			this.b = b;
+			this.c = c;
+			this.groupingNumber = groupingNumber;
+			this.membershipValue = membershipValue;
+		}
 
 		public MembershipModelBuilder(double a, double b, double c, int groupingNumber) {
 			this.a = a;
@@ -46,6 +56,7 @@ public class MembershipModel {
 			model.b = this.b;
 			model.c = this.c;
 			model.goupingNumber = this.groupingNumber;
+			model.membershipValue = membershipValue;
 			return model;
 		}
 	}
@@ -187,15 +198,86 @@ public class MembershipModel {
 		}
 	}
 
-	public List<MembershipModel> getMembershipRules(MembershipModel[] values) {
-		Map<Integer, MembershipModel> rules = new HashMap<Integer,MembershipModel>();
-		for(MembershipModel model : values)
-		{
+	public static List<MembershipModel> getMembershipRules(MembershipModel[] values) {
+		Map<Integer, MembershipModel> rules = new HashMap<Integer, MembershipModel>();
+		for(MembershipModel model : values){
 			rules.put(model.getGoupingNumber(), model);
-		}		
+		}
 		List<MembershipModel> results = new ArrayList<MembershipModel>();
 		results.addAll(rules.values());
 		return results;
 	}
 
+	public boolean isValueMatches(double value) {
+		if(value >= this.a && value <= this.c){
+			return true;
+		}
+		return false;
+	}
+
+	public double calculateMembershipValue(double value) {
+
+		double a = this.a == Double.MIN_VALUE ? 0d : this.a;
+		if(c == Double.MAX_VALUE && value > this.b) return 1;
+		if(this.b > value){
+			membershipValue = (value - a) / (this.b - a);
+
+		} else{
+			membershipValue = (c - value) / (c - this.b);
+		}
+		this.membershipValue = membershipValue;
+		return membershipValue;
+	}
+
+	public static List<MembershipModel> getMatchingRules(List<MembershipModel> ruleList, double value) {
+		List<MembershipModel> matchingRules = new ArrayList<MembershipModel>();
+
+		if(ruleList != null){
+			for(MembershipModel rule : ruleList){
+				if(rule.isValueMatches(value)){
+					matchingRules.add(rule);
+				}
+			}
+		}
+
+		return matchingRules;
+	}
+
+	public static List<MembershipModel> calculateMembershipValues(List<MembershipModel> ruleList, double value) {
+		List<MembershipModel> matchingRules = MembershipModel.getMatchingRules(ruleList, value);
+
+		for(MembershipModel rule : matchingRules){
+			rule.calculateMembershipValue(value);
+		}
+		return matchingRules;
+	}
+
+	public static List<MembershipModel> getRuleWhichHasMinimumMembershipValue(List<MembershipModel> membershipValues1, List<MembershipModel> membershipValues2) {
+		List<MembershipModel> results = new ArrayList<MembershipModel>();
+		for(MembershipModel input1 : membershipValues1){
+			for(MembershipModel input2 : membershipValues2){
+				if(input1.membershipValue < input2.membershipValue){
+					results.add(input1);
+				} else{
+					results.add(input2);
+				}
+			}
+		}
+		return results;
+	}
+
+	public static double caculateResultingValue(List<MembershipModel> results, List<Double> centralPoints) {
+		double result = 0d;
+		double numerator = 0d;
+		double denominator = 0d;
+		if(results != null && centralPoints != null){
+			for(int i = 0; i < results.size(); i++){
+				numerator += results.get(i).membershipValue * centralPoints.get(i); //results.get(i).goupingNumber-1
+				denominator += results.get(i).membershipValue;
+			}
+
+		}
+		result = (double)(numerator / denominator);
+		return result;
+	}
 }

@@ -1,5 +1,6 @@
 package com.fuzzy.stocks.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,16 +53,55 @@ public class FuzzyMembershipPrintServiceImpl implements FuzzyMembershipPrintServ
 
 	public static void printMembershipModels(MembershipModel[] columnValues) {
 		System.out.println("Printing groups");
+
+		List<MembershipModel> uniqueGroups = getUniqueGroups(columnValues);
+		for(MembershipModel model : uniqueGroups){
+			System.out.println(model);
+
+		}
+
+	}
+
+	public static List<MembershipModel> getUniqueGroups(MembershipModel[] columnValues) {
+		List<MembershipModel> uniqueGroups = new ArrayList<MembershipModel>();
 		Set<Integer> printedGroups = new HashSet<Integer>();
 		for(MembershipModel model : columnValues){
 			if((model.getGoupingNumber() == 0) || !printedGroups.contains(model.getGoupingNumber())){
-				System.out.println(model);
+				uniqueGroups.add(model);
 				if(model.getGoupingNumber() != 0){
 					printedGroups.add(model.getGoupingNumber());
 				}
 			}
-
 		}
+		return uniqueGroups;
+	}
 
+	public static void printRigthCornerPoints(List<Double> rigthCornerPoints) {
+		System.out.println("-----------Printing rigth corner points-------------");
+		printCornerPoints(rigthCornerPoints,'c');
+		System.out.println("---------------------------------------------------");
+
+	}
+	
+	public static void printCenterCornerPoints(List<Double> centerCornerPoints) {
+		System.out.println("-----------Printing center corner points-------------");
+		printCornerPoints(centerCornerPoints,'b');
+		System.out.println("---------------------------------------------------");
+
+	}
+	
+	public static void printLeftCornerPoints(List<Double> leftCornerPoints) {
+		System.out.println("-----------Printing left corner points-------------");
+		printCornerPoints(leftCornerPoints,'a');
+		System.out.println("---------------------------------------------------");
+
+	}
+
+	private static void printCornerPoints(List<Double> cornerPoints, char pointName) {
+		int counter = 1;
+		for(Double point : cornerPoints){
+			System.out.format("( [%c%d] : %f) \n", pointName, counter, point);
+			counter++;
+		}
 	}
 }

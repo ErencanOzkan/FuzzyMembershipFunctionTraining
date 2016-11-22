@@ -1,44 +1,44 @@
 {
 "FuzzyData" : [
              {
-             	"age" : 20,
-             	"property" : 30,
-             	"insurance_fee" : 2000
+             	"age" : 20.0,
+             	"property" : 30.0,
+             	"insurance_fee" : 2000.0
              },
            {
-             	"age" : 25,
-                "property" : 30,
-             	"insurance_fee" : 2100
+             	"age" : 25.0,
+                "property" : 30.0,
+             	"insurance_fee" : 2100.0
              },
              {
-             	"age" : 30,
-             	"property" : 10,
-             	"insurance_fee" : 2200
+             	"age" : 30.0,
+             	"property" : 10.0,
+             	"insurance_fee" : 2200.0
              },
              {
-             	"age" : 45,
-             	"property" : 50,
-             	"insurance_fee" : 2500
+             	"age" : 45.0,
+             	"property" : 50.0,
+             	"insurance_fee" : 2500.0
              },
              {
-             	"age" : 50,
-             	"property" : 30,
-             	"insurance_fee" : 2600
+             	"age" : 50.0,
+             	"property" : 30.0,
+             	"insurance_fee" : 2600.0
              },
              {
-             	"age" : 60,
-             	"property" : 10,
-             	"insurance_fee" :2700 
+             	"age" : 60.0,
+             	"property" : 10.0,
+             	"insurance_fee" :2700.0
              },
              {
-             	"age" : 80,
-             	"property" : 30,
-             	"insurance_fee" :3200 
+             	"age" : 80.0,
+             	"property" : 30.0,
+             	"insurance_fee" :3200.0 
              },
              {
-             	"age" : 80,
-             	"property" : 40,
-             	"insurance_fee" : 3300
+             	"age" : 80.0,
+             	"property" : 40.0,
+             	"insurance_fee" : 3300.0
              }
       ]
       }

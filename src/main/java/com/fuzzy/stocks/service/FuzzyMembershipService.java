@@ -26,4 +26,8 @@ public interface FuzzyMembershipService {
 
 	double calculateCentralPoint(List<FuzzyData> sameGroupData, List<Double> sameGroupSimilarity);
 
+	List<FuzzyData> getPreparedData();
+
+	List<Double> getCentralPoints();
+
 }
