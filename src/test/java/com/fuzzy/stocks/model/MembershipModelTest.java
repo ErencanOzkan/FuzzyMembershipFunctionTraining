@@ -135,6 +135,9 @@ public class MembershipModelTest {
 		
 		MembershipModel model1ForInput1 = new MembershipModel.MembershipModelBuilder(Double.MIN_VALUE, 26.25d, 35d, 1, 0.55d).build();
 		MembershipModel model2ForInput1 = new MembershipModel.MembershipModelBuilder(30d, 54.166666666666664d, 80d, 2, 0.3d).build();
+		model1ForInput1.matchingRuleIndex =0;
+		model2ForInput1.matchingRuleIndex =1;
+		
 		List<MembershipModel> results = new ArrayList<MembershipModel>();
 		results.add( model1ForInput1 );
 		results.add( model2ForInput1 );

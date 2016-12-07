@@ -16,6 +16,8 @@ public class MembershipModel {
 	private int goupingNumber;
 	private boolean mergeCompleted = true;
 	double membershipValue;
+	
+	int matchingRuleIndex;
 
 	private MembershipModel() {
 
@@ -229,14 +231,17 @@ public class MembershipModel {
 		return membershipValue;
 	}
 
-	public static List<MembershipModel> getMatchingRules(List<MembershipModel> ruleList, double value) {
+	public static List<MembershipModel> getMatchingRules(List<MembershipModel> ruleList, double value) {		
 		List<MembershipModel> matchingRules = new ArrayList<MembershipModel>();
-
+		
+		int index = 0;
 		if(ruleList != null){
 			for(MembershipModel rule : ruleList){
 				if(rule.isValueMatches(value)){
+					rule.matchingRuleIndex = index;
 					matchingRules.add(rule);
 				}
+				index++;
 			}
 		}
 
@@ -245,7 +250,7 @@ public class MembershipModel {
 
 	public static List<MembershipModel> calculateMembershipValues(List<MembershipModel> ruleList, double value) {
 		List<MembershipModel> matchingRules = MembershipModel.getMatchingRules(ruleList, value);
-
+	
 		for(MembershipModel rule : matchingRules){
 			rule.calculateMembershipValue(value);
 		}
@@ -272,6 +277,14 @@ public class MembershipModel {
 		double denominator = 0d;
 		if(results != null && centralPoints != null){
 			for(int i = 0; i < results.size(); i++){
+				
+//				int centralPointIndex = results.get(i).matchingRuleIndex;
+//				if(centralPointIndex >= results.size()){
+//					centralPointIndex = results.size();
+//				}
+//				numerator += results.get(i).membershipValue * centralPoints.get(centralPointIndex); //results.get(i).goupingNumber-1
+				
+				
 				numerator += results.get(i).membershipValue * centralPoints.get(i); //results.get(i).goupingNumber-1
 				denominator += results.get(i).membershipValue;
 			}
